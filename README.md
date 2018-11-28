@@ -11,7 +11,6 @@ Assumes you have:
 ```
 vim-jsx/
 vim-polyglot/
-../
 vim-surround/
 vim-commentary/
 vim-repeat/
@@ -20,7 +19,6 @@ vim-fugitive/
 vim-gitgutter/
 ack.vim/
 fzf.vim/
-package-lock.json
 vim-tmux-navigator/
 deoplete.nvim/
 nvim-yarp/
@@ -30,7 +28,6 @@ vim-prettier/
 vim-colors-solarized/
 vim-pasta/
 vim-js-file-import/
-./
 vim-gutentags/
 ```
 (@TODO.. use a bundler so its easier to install across machines)
@@ -38,3 +35,5 @@ vim-gutentags/
 * Tmux 2.8 (with TPM)
 * Fish shell (with Oh My Fish)
 * iterm 3.2.5
+* ripgrep
+* fzf
