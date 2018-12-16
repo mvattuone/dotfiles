@@ -1,15 +1,45 @@
+set nocompatible
+set pyxversion=3
+
+call plug#begin()
+
+Plug 'mileszs/ack.vim'
+Plug 'w0rp/ale'
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'junegunn/fzf.vim'
+Plug 'roxma/nvim-yarp'
+Plug 'airblade/vim-gitgutter'
+Plug 'lifepillar/vim-solarized8'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+Plug 'sickill/vim-pasta'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'prettier/vim-prettier'
+Plug 'tpope/vim-repeat'
+Plug 'wellle/targets.vim'
+Plug 'tpope/vim-surround'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'junegunn/goyo.vim'
+
+call plug#end()
+filetype plugin indent on
+
 let mapleader = "\<Space>"
-set pyxversion=3 
 let g:pymode_python = 'python3'
 
 " Allow jsx syntax highlight for non `.jsx` files
 let g:jsx_ext_required = 0
 
-set nocompatible
 set number
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
+" Ensure webpack gets all file changes
+au BufNewFile,BufReadPre *.js set backupcopy=yes
 
 " Spaces whenever tab is pressed
 :set expandtab
@@ -25,9 +55,13 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-let g:solarized_termcolors=256
+" Code folding
+set foldmethod=syntax
+set foldcolumn=1
+
+
 set background=dark
-colorscheme solarized
+colorscheme solarized8_high
 
 nmap <Leader>; :Buffers<CR>
 nmap <C-p> :Files<CR>
@@ -47,10 +81,12 @@ if executable('rg')
   let g:ackprg = 'rg --vimgrep'
 endif
 
-" If installed using Homebrew
-set runtimepath+=/usr/local/opt/fzf
+set undodir=~/.vim/undo-dir
+set undofile
 
-filetype indent on 
+" If installed using Homebrew
+set rtp+=/usr/local/opt/fzf
+
 syntax enable
 let g:deoplete#enable_at_startup = 1
 
@@ -65,16 +101,14 @@ function! UnMinify()
     normal ggVG=
 endfunction
 
-
 " various bits of Powerline related config
-set rtp+=$HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim/
+set rtp+=$HOME/Library/Python/3.7/lib/python/site-packages/powerline/bindings/vim/
 set laststatus=2
-set t_Co=256
 set guifont=Fira\ Code:h12
 let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 set fillchars+=stl:\ ,stlnc:\
-set term=xterm-256color
+set term=xterm
 set termencoding=utf-8
 
 " Attempt to import a file programmatically using `universal-ctags`. YMMV
@@ -84,18 +118,57 @@ nmap <leader>i :JsFileImport<cr>
 nmap <silent> <leader>j :ALENext<cr>
 nmap <silent> <leader>k :ALEPrevious<cr>
 
+" Use quickfix window for Ale rather than location list window
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+
 " FU bell
 set vb t_vb=     
+
+" Set up better zoom
+nmap <C-z> <nop>
 
 " Touchbar silliness
 " Assuming your Caps Lock has been mapped to <Esc> at the OS level
 imap jk <esc>
 vmap jk <esc>
 
+" Ignore node_modules
 set wildignore+=*node_modules/**
+
+" Disable auto formatting of files that have "@format" tag
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+let g:prettier#config#parser = 'babylon'
 
+" Code folding
+set foldmethod=syntax
+set foldcolumn=1
+set foldlevelstart=0
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+let &t_ZH="\e[3m"
+let &t_ZR="\e[23m"
+
+highlight Folded cterm=italic term=italic
+highlight Comment cterm=italic term=italic
+ 
 " Put these lines at the very end of your vimrc file.
 
 " Load all plugins now.
