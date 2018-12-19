@@ -38,8 +38,7 @@ set number
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
-" Ensure webpack gets all file changes
-au BufNewFile,BufReadPre *.js set backupcopy=yes
+set backupcopy=yes
 
 " Spaces whenever tab is pressed
 :set expandtab
