@@ -1,0 +1,33 @@
+{
+    "bookmarks": [],
+    "gui_state": {
+        "mainview": {
+            "geometry": "AdnQywADAAAAAAFoAAAAFwAABZ8AAANPAAABaAAAAC0AAAWfAAADTwAAAAAAAAAABaAAAAFoAAAALQAABZ8AAANP",
+            "width": 1080,
+            "height": 803,
+            "x": 360,
+            "y": 23,
+            "lock_layout": false,
+            "windowstate": "AAAA/wAAAAL9AAAAAgAAAAIAAAQ4AAABkPwBAAAABfsAAAAMAFMAdABhAHQAdQBzAQAAAAAAAAD1AAAA9QAAIAD7AAAADABDAG8AbQBtAGkAdAEAAAD4AAABmAAAAOcA////+wAAABIARgBhAHYAbwByAGkAdABlAHMAAAAAAP////8AAAGLAP////sAAAAQAEIAcgBhAG4AYwBoAGUAcwEAAAKTAAABpQAAAQgA////+wAAAAwAUgBlAGMAZQBuAHQAAAAAAP////8AAAE6AP///wAAAAMAAAQ4AAABkPwBAAAAAvsAAAAIAEQAaQBmAGYBAAAAAAAABDgAAADPAP////wAAAAA/////wAAAAAA////+v////8BAAAAAvsAAAAOAEEAYwB0AGkAbwBuAHMAAAAAAP////8AAAC6AP////sAAAAOAEMAbwBuAHMAbwBsAGUAAAAAAP////8AAAC9AP///wAAAw4AAAAAAAAABAAAAAQAAAAIAAAACPwAAAAA",
+            "show_status_filter": false,
+            "toolbars": [],
+            "show_diff_line_numbers": false,
+            "image_diff_mode": 0,
+            "image_zoom_mode": 0
+        },
+        "messagebox": {
+            "geometry": "AdnQywADAAAAAAIcAAAALQAABOsAAADYAAACHAAAAC0AAATrAAAA2AAAAAAAAAAABaAAAAIcAAAALQAABOsAAADY",
+            "width": 720,
+            "height": 172,
+            "x": 540,
+            "y": 45
+        }
+    },
+    "recent": [
+        {
+            "name": "idealist7",
+            "path": "/Users/mikevattuone/Sites/idealist7"
+        }
+    ],
+    "copy_formats": []
+}
