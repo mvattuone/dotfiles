@@ -42,11 +42,12 @@ set undodir=~/.vim/undo//
 " should help with webpack getting triggered on save https://github.com/webpack/webpack/issues/781
 set backupcopy=yes 
 " Spaces whenever tab is pressed
-:set expandtab
+set expandtab
 
 " 2 spaces
-:set tabstop=2
-:set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
 " @See https://github.com/lifepillar/vim-solarized8#troubleshooting
 if exists('+termguicolors')
