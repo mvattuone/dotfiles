@@ -112,6 +112,8 @@ if executable('flow')
         \ })
 endif
 
+let g:javascript_plugin_flow = 1
+
 " Simple re-format for minified Javascript
 command! UnMinify call UnMinify()
 function! UnMinify()
