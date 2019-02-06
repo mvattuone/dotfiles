@@ -5,15 +5,15 @@ call plug#begin()
 
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete-flow.vim'
 Plug 'junegunn/fzf.vim'
-Plug 'roxma/nvim-yarp'
 Plug 'airblade/vim-gitgutter'
 Plug 'lifepillar/vim-solarized8'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'sickill/vim-pasta'
 Plug 'pangloss/vim-javascript'
@@ -88,7 +88,27 @@ set undofile
 set rtp+=/usr/local/opt/fzf
 
 syntax enable
-let g:deoplete#enable_at_startup = 1
+let g:asyncomplete_smart_completion = 0
+let g:asyncomplete_auto_popup = 1
+let g:lsp_diagnostics_enabled = 0   
+
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+
+if executable('flow')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'flow',
+        \ 'cmd': {server_info->['flow', 'lsp']},
+        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
+        \ 'whitelist': ['javascript', 'javascript.jsx'],
+        \ })
+endif
 
 " Simple re-format for minified Javascript
 command! UnMinify call UnMinify()
