@@ -39,8 +39,8 @@ set number
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
-set backupcopy=yes
-
+" should help with webpack getting triggered on save https://github.com/webpack/webpack/issues/781
+set backupcopy=yes 
 " Spaces whenever tab is pressed
 :set expandtab
 
