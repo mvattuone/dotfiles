@@ -76,10 +76,11 @@ nmap <Leader>r :Tags<CR>
 :vmap <Leader>c "+y
 :nmap <Leader>p "+p
 
-" Use ripgrep with ack
+" Use ripgrep with ack + fzf
 " for really really fast searching
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep'
+  let g:ackprg = 'rg --vimgrep --hidden'
+  let $FZF_DEFAULT_COMMAND = 'rg --vimgrep --hidden -l -i ""'
 endif
 
 set undodir=~/.vim/undo-dir
