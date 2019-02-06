@@ -17,6 +17,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'sickill/vim-pasta'
 Plug 'pangloss/vim-javascript'
+Plug 'mindriot101/vim-yapf'
 Plug 'mxw/vim-jsx'
 Plug 'prettier/vim-prettier'
 Plug 'tpope/vim-repeat'
@@ -116,6 +117,9 @@ nmap <leader>i :JsFileImport<cr>
 " Move through linting errors more conveniently
 nmap <silent> <leader>j :ALENext<cr>
 nmap <silent> <leader>k :ALEPrevious<cr>
+
+" Run yapf on save
+autocmd BufWritePre *.py :Yapf
 
 " Use quickfix window for Ale rather than location list window
 let g:ale_set_loclist = 0
