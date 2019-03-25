@@ -162,6 +162,36 @@ function! MyFoldText() " {{{
 endfunction " }}}
 set foldtext=MyFoldText()
 
+" Function that calls Selenium test runner for idealist app
+" Either test whole class or function
+function! RunTest() 
+  let filepath = expand('%:p')
+  let lineindent = indent('.')
+  let n = line('.')
+  let test_function = ''
+  let test_class = split(split(getline(search('class [A-Z]')))[1], '(')[0]
+
+  if lineindent > 2
+    while (indent(prevnonblank(n)) > 0)
+      if indent(prevnonblank(n)) <= 2
+        let test_function = trim(split(getline(prevnonblank(n)))[1], '(self):')
+        break
+      endif
+      let n = n - 1
+    endwhile
+  endif
+
+  if len(test_function) <= 0
+    echo 'here it is: ' . filepath . '::' . test_class
+    " execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class 
+  else
+    echo 'here it is 2: ' . filepath . '::' . test_class . '::' . test_function
+    " execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py' . filepath . '::' . test_class . '::' . test_function
+  endif
+endfunction
+
+command! RunTest call RunTest()
+
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
