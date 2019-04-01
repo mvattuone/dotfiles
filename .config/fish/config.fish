@@ -1,4 +1,7 @@
 alias v "mvim -v"
+alias dc "docker-compose"
+alias dcs "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml"
+alias t "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py" 
 
 # Initialize autojump 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
@@ -28,5 +31,9 @@ set -g theme_nerd_fonts yes
 # Show full directory in shell
 set -U fish_prompt_pwd_dir_length 0
 
+# Add git scripts to Path
+set PATH /Users/mikevattuone/gitScripts $PATH
+
 # Add Python to Path
 set PATH /Users/mikevattuone/Library/Python/3.7/bin $PATH
+rvm default
