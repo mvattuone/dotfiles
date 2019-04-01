@@ -16,6 +16,7 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'sickill/vim-pasta'
+Plug 'tpope/vim-commentary'
 Plug 'pangloss/vim-javascript'
 Plug 'mindriot101/vim-yapf'
 Plug 'mxw/vim-jsx'
@@ -148,6 +149,13 @@ autocmd BufWritePre *.py :Yapf
 " Use quickfix window for Ale rather than location list window
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
+
+let g:ale_linters = { 
+\'javascript': ['flow', 'eslint'], 'python': ['pylint']
+\}
+let g:ale_fixers = {
+\'javascript': ['eslint'], 'python': ['pylint']
+\}
 
 " FU bell
 set vb t_vb=     
