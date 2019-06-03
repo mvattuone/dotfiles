@@ -67,15 +67,15 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>592 143 753 285 0 0 1440 877 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>1987 438 700 472 1440 0 1920 1057 </string>
+	<string>834 1338 700 472 224 900 1920 1057 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>1965 265 606 469 1440 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>386 334 918 423 0 0 1440 877 </string>
+	<string>386 426 928 394 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1440 23 1920 1034 1440 0 1920 1057 </string>
+	<string>1441 0 1906 1057 1440 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>1829 374 650 477 1440 0 1920 1057 </string>
+	<string>1827 376 650 477 1440 0 1920 1057 </string>
 	<key>NeverWarnAboutOverrides</key>
 	<true/>
 	<key>NeverWarnAboutOverrides_selection</key>
@@ -823,11 +823,11 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2019-01-22T20:06:03Z</date>
+	<date>2019-04-16T15:55:42Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>TmuxDashboardLimit</key>
 	<integer>10</integer>
 	<key>WordCharacters</key>
@@ -839,7 +839,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.2.6</string>
+	<string>3.2.7</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>3</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

@@ -11,7 +11,9 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete-flow.vim'
 Plug 'junegunn/fzf.vim'
+Plug 'andymass/vim-matchup'
 Plug 'airblade/vim-gitgutter'
+Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'lifepillar/vim-solarized8'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
@@ -36,7 +38,14 @@ let g:pymode_python = 'python3'
 " Allow jsx syntax highlight for non `.jsx` files
 let g:jsx_ext_required = 0
 
-set number
+:set number relativenumber
+
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
+
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
@@ -126,6 +135,10 @@ function! UnMinify()
     normal ggVG=
 endfunction
 
+" Enable experimental transmutation support
+" from vim-match (should rename both tags)
+let g:matchup_transmute_enabled = 1
+
 " various bits of Powerline related config
 set rtp+=$HOME/Library/Python/3.7/lib/python/site-packages/powerline/bindings/vim/
 set laststatus=2
@@ -201,7 +214,7 @@ set foldtext=MyFoldText()
 " Function that calls Selenium test runner for idealist app
 " Either test whole class or function
 function! RunTest() 
-  let filepath = expand('%:p')
+  let filepath = @%
   let lineindent = indent('.')
   let n = line('.')
   let test_function = ''
@@ -210,7 +223,9 @@ function! RunTest()
   if lineindent > 2
     while (indent(prevnonblank(n)) > 0)
       if indent(prevnonblank(n)) <= 2
-        let test_function = trim(split(getline(prevnonblank(n)))[1], '(self):')
+        " Search for either ( or (self): since Python formatting may break the
+        " line
+        let test_function = substitute(split(getline(prevnonblank(n)))[1], '\v\((self\):)?', '', '')
         break
       endif
       let n = n - 1
@@ -218,15 +233,42 @@ function! RunTest()
   endif
 
   if len(test_function) <= 0
-    echo 'here it is: ' . filepath . '::' . test_class
-    " execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class 
+    echo 'Running test suite' . filepath . '::' . test_class
+    execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class 
   else
-    echo 'here it is 2: ' . filepath . '::' . test_class . '::' . test_function
-    " execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py' . filepath . '::' . test_class . '::' . test_function
+    echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
+    execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
   endif
 endfunction
 
 command! RunTest call RunTest()
+
+" Shamelessly lifted from https://github.com/samuelsimoes/vim-jsx-utils/blob/master/plugin/vim-jsx-utils.vim
+function! JSXIsSelfCloseTag()
+  let l:line_number = line(".")
+  let l:line = getline(".")
+  let l:tag_name = matchstr(matchstr(line, "<\\w\\+"), "\\w\\+")
+
+  exec "normal! 0f<vat\<esc>"
+
+  cal cursor(line_number, 1)
+
+  let l:selected_text = join(getline(getpos("'<")[1], getpos("'>")[1]))
+
+  let l:match_tag = matchstr(matchstr(selected_text, "</\\w\\+>*$"), "\\w\\+")
+
+  return tag_name != match_tag
+endfunction
+
+function! JSXSelectTag()
+  if JSXIsSelfCloseTag()
+    exec "normal! \<esc>0f<v/\\/>$\<cr>l"
+  else
+    exec "normal! \<esc>0f<vat"
+  end
+endfunction
+
+nnoremap vat :call JSXSelectTag()<CR>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
