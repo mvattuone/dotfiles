@@ -228,10 +228,11 @@ function! RunTest()
   let n = line('.')
   let test_function = ''
   let test_class = split(split(getline(search('class [A-Z]')))[1], '(')[0]
+  let l:winview = winsaveview()
 
-  if lineindent > 2
+  if lineindent > 4
     while (indent(prevnonblank(n)) > 0)
-      if indent(prevnonblank(n)) <= 2
+      if indent(prevnonblank(n)) <= 4
         " Search for either ( or (self): since Python formatting may break the
         " line
         let test_function = substitute(split(getline(prevnonblank(n)))[1], '\v\((self\):)?', '', '')
@@ -243,11 +244,15 @@ function! RunTest()
 
   if len(test_function) <= 0
     echo 'Running test suite' . filepath . '::' . test_class
-    execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class 
+    execute 'silent !tmux -2 split-window -d ! -v -f docker-compose -f docker-compose.yml -f
+    docker-compose.selenium.yml run tester python runtests.py ' . filepath .
+    '::' . test_class . '-r' 
   else
     echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
-    execute '!docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
+    execute 'silent !tmux split-window -d -p 20 -v -f docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
   endif
+
+  call winrestview(l:winview)
 endfunction
 
 command! RunTest call RunTest()
