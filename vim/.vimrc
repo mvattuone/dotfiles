@@ -29,6 +29,7 @@ Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'chaoren/vim-wordmotion'
+Plug 'markonm/traces.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
 
