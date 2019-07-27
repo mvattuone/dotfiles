@@ -3,7 +3,6 @@ set pyxversion=3
 
 call plug#begin()
 
-Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/async.vim'
@@ -77,6 +76,7 @@ colorscheme solarized8_high
 nmap <Leader>; :Buffers<CR>
 nmap <C-p> :Files<CR>
 nmap <Leader>r :Tags<CR>
+nmap <Leader>/ :Rg 
 
 " Easier navigation of buffers
 :nnoremap <Tab> :bnext<CR>
@@ -86,12 +86,21 @@ nmap <Leader>r :Tags<CR>
 :vmap <Leader>c "+y
 :nmap <Leader>p "+p
 
-" Use ripgrep with ack + fzf
+" Use ripgrep with fzf
 " for really really fast searching
 if executable('rg')
-  let g:ackprg = 'rg --vimgrep --hidden'
   let $FZF_DEFAULT_COMMAND = 'rg --vimgrep --hidden -l -i ""'
 endif
+
+command! -bang -nargs=* Rg call fzf#vim#grep(<q-args>, {'options': '--delimiter : --nth 4..'},
+
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --vimgrep --column --line-number --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0)
 
 set undodir=~/.vim/undo-dir
 set undofile
