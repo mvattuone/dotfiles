@@ -21,7 +21,7 @@ Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'sickill/vim-pasta'
 Plug 'tpope/vim-commentary'
 Plug 'pangloss/vim-javascript'
-Plug 'mindriot101/vim-yapf'
+Plug 'python/black'
 Plug 'mxw/vim-jsx'
 Plug 'prettier/vim-prettier'
 Plug 'tpope/vim-repeat'
@@ -175,8 +175,8 @@ nmap <leader>i :JsFileImport<cr>
 nmap <silent> <leader>j :ALENext<cr>
 nmap <silent> <leader>k :ALEPrevious<cr>
 
-" Run yapf on save
-autocmd BufWritePre *.py :Yapf
+" Run black on save
+autocmd BufWritePre *.py execute ':Black'
 
 " Use quickfix window for Ale rather than location list window
 let g:ale_set_loclist = 0
