@@ -29,6 +29,7 @@ Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/goyo.vim'
+Plug 'kevinhui/vim-docker-tools'
 
 call plug#end()
 filetype plugin indent on
@@ -157,6 +158,12 @@ endfunction
 " Enable experimental transmutation support
 " from vim-match (should rename both tags)
 let g:matchup_transmute_enabled = 1
+
+" Add ability to toggle viewing existing docker containers and manipulate them
+nmap <silent> <leader>dc :DockerToolsToggle<cr>
+
+" Add ability to toggle docker stats (why can't this be part of docker ps...)
+nmap <silent> <leader>ds :silent !tmux split-window -d -p 10 -v -f docker stats --format "table {{.Container}}\t{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}" idealist7_webpack_1 idealist7_worker_1<cr>
 
 " various bits of Powerline related config
 set rtp+=$HOME/Library/Python/3.7/lib/python/site-packages/powerline/bindings/vim/
