@@ -36,6 +36,9 @@ Plug 'kevinhui/vim-docker-tools'
 call plug#end()
 filetype plugin indent on
 
+" Enable omni complete
+set omnifunc=syntaxcomplete#Complete
+
 let mapleader = "\<Space>"
 let g:pymode_python = 'python3'
 
