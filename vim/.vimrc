@@ -28,6 +28,7 @@ Plug 'tpope/vim-repeat'
 Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'chaoren/vim-wordmotion'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
 
