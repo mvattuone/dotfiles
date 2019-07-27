@@ -9,6 +9,8 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/asyncomplete-flow.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'ryanolsonx/vim-lsp-javascript'
 Plug 'junegunn/fzf.vim'
 Plug 'andymass/vim-matchup'
 Plug 'airblade/vim-gitgutter'
@@ -131,6 +133,14 @@ if executable('flow')
         \ })
 endif
 
+" Register asyncomplete-file
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+    \ 'name': 'file',
+    \ 'whitelist': ['*'],
+    \ 'priority': 10,
+    \ 'completor': function('asyncomplete#sources#file#completor')
+    \ }))
+
 let g:javascript_plugin_flow = 1
 
 " Simple re-format for minified Javascript
@@ -190,6 +200,8 @@ nmap <C-z> <nop>
 imap jk <esc>
 vmap jk <esc>
 
+set wildmenu
+set wildmode=longest,list
 " Ignore node_modules
 set wildignore+=*node_modules/**
 
