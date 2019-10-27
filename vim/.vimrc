@@ -36,6 +36,10 @@ Plug 'kevinhui/vim-docker-tools'
 call plug#end()
 filetype plugin indent on
 
+" Resolves issues with powerline + flickering
+" https://github.com/powerline/powerline/issues/1281
+set showtabline=1
+
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
 
