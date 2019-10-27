@@ -3,35 +3,37 @@ set pyxversion=3
 
 call plug#begin()
 
-Plug 'w0rp/ale'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete-flow.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'ryanolsonx/vim-lsp-javascript'
-Plug 'junegunn/fzf.vim'
-Plug 'andymass/vim-matchup'
 Plug 'airblade/vim-gitgutter'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'lifepillar/vim-solarized8'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
-Plug 'sickill/vim-pasta'
-Plug 'tpope/vim-commentary'
-Plug 'pangloss/vim-javascript'
-Plug 'python/black'
-Plug 'mxw/vim-jsx'
-Plug 'prettier/vim-prettier'
-Plug 'tpope/vim-repeat'
-Plug 'wellle/targets.vim'
-Plug 'tpope/vim-surround'
-Plug 'christoomey/vim-tmux-navigator'
+Plug 'andymass/vim-matchup'
 Plug 'chaoren/vim-wordmotion'
-Plug 'markonm/traces.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'fholgado/minibufexpl.vim'
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
+Plug 'konfekt/fastfold'
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'markonm/traces.vim'
+Plug 'tomasiser/vim-code-dark'
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-flow.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prettier/vim-prettier'
+Plug 'python/black'
+Plug 'ryanolsonx/vim-lsp-javascript'
+Plug 'sickill/vim-pasta'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'w0rp/ale'
+Plug 'wellle/targets.vim'
 
 call plug#end()
 filetype plugin indent on
@@ -72,7 +74,6 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
-" @See https://github.com/lifepillar/vim-solarized8#troubleshooting
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -85,7 +86,8 @@ set foldcolumn=1
 
 
 set background=dark
-colorscheme solarized8_high
+colorscheme codedark
+
 
 nmap <Leader>; :Buffers<CR>
 nmap <C-p> :Files<CR>
