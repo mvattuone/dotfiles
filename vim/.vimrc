@@ -218,8 +218,10 @@ autocmd BufWritePre *.py execute ':Black'
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 
+let g:ale_linter_aliases = {'jsx': 'css'}
+
 let g:ale_linters = { 
-\'javascript': ['flow', 'eslint'], 'python': ['pylint']
+\'javascript': ['flow', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint']
 \}
 let g:ale_fixers = {
 \'javascript': ['eslint'], 'python': ['pylint']
