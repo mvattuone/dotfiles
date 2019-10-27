@@ -95,8 +95,10 @@ nmap <Leader>r :Tags<CR>
 nmap <Leader>/ :Rg 
 
 " Easier navigation of buffers
-:nnoremap <Tab> :bnext<CR>
-:nnoremap <S-Tab> :bprevious<CR>
+:nnoremap <Tab> :b#<CR>
+:nnoremap <S-Tab> :b#<CR>
+" Use with a number to go to buffer.
+:nnoremap <Leader>b <C-^>
 
 " Easier copy paste from clipboard to buffer
 :vmap <Leader>c "+y
