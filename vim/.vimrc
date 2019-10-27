@@ -207,6 +207,12 @@ set termencoding=utf-8
 " Attempt to import a file programmatically using `universal-ctags`. YMMV
 nmap <leader>i :JsFileImport<cr>
 
+" Include jsx in Javascript filetype
+augroup FiletypeGroup
+    autocmd!
+    au BufNewFile,BufRead *.js set filetype=css.javascript.jsx
+augroup END
+
 " Move through linting errors more conveniently
 nmap <silent> <leader>j :ALENext<cr>
 nmap <silent> <leader>k :ALEPrevious<cr>
