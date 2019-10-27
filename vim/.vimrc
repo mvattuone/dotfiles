@@ -58,6 +58,7 @@ let g:jsx_ext_required = 0
 :augroup END
 
 set backup
+set undofile
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
