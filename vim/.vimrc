@@ -308,12 +308,10 @@ function! RunTest()
 
   if len(test_function) <= 0
     echo 'Running test suite' . filepath . '::' . test_class
-    execute 'silent !tmux -2 split-window -d ! -v -f docker-compose -f docker-compose.yml -f
-    docker-compose.selenium.yml run tester python runtests.py ' . filepath .
-    '::' . test_class . '-r' 
+    execute 'silent !tmux -2 split-window -d ! -v -f docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r' 
   else
     echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
-    execute 'silent !tmux split-window -d -p 20 -v -f docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
+    execute 'silent !tmux split-window -d -p 20 -v docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
   endif
 
   call winrestview(l:winview)
