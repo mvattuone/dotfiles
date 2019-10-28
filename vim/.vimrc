@@ -7,7 +7,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'andymass/vim-matchup'
 Plug 'chaoren/vim-wordmotion'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'fholgado/minibufexpl.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
@@ -40,7 +39,7 @@ filetype plugin indent on
 
 " Resolves issues with powerline + flickering
 " https://github.com/powerline/powerline/issues/1281
-set showtabline=1
+set showtabline=2
 
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
@@ -74,6 +73,9 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
+" Enable mouse support because sometimes you just gotta use it.
+set mouse=a
+
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -95,9 +97,10 @@ nmap <Leader>r :Tags<CR>
 nmap <Leader>/ :Rg 
 
 " Easier navigation of buffers
-:nnoremap <Tab> :b#<CR>
-:nnoremap <S-Tab> :b#<CR>
+:nnoremap <Tab> :bn<CR>
+:nnoremap <S-Tab> :bp<CR>
 " Use with a number to go to buffer.
+" Or on it's own to toggle previous buffer
 :nnoremap <Leader>b <C-^>
 
 " Easier copy paste from clipboard to buffer
