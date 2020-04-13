@@ -33,7 +33,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
-
+Plug 'stefandtw/quickfix-reflector.vim'
 call plug#end()
 filetype plugin indent on
 
@@ -73,8 +73,13 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 
+" Enable more redraws
+set ttyfast
+
 " Enable mouse support because sometimes you just gotta use it.
 set mouse=a
+" Makes the mouse actually usable (more responsive selection)
+set ttymouse=xterm2
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -219,6 +224,9 @@ nmap <silent> <leader>k :ALEPrevious<cr>
 
 " Run black on save
 autocmd BufWritePre *.py execute ':Black'
+
+" Hopefully makes Ale faster
+let g:ale_virtualenv_dir_names = []
 
 " Use quickfix window for Ale rather than location list window
 let g:ale_set_loclist = 0
