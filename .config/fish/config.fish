@@ -1,7 +1,7 @@
 alias v "mvim -v"
 alias dc "docker-compose"
 alias dcs "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml"
-alias t "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py" 
+alias t "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py --no-screenshot" 
 
 # Initialize autojump 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
