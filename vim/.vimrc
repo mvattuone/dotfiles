@@ -295,12 +295,12 @@ nnoremap <leader>m :silent make\|redraw!<cr>
 " Function that calls Selenium test runner for idealist app
 " Either test whole class or function
 function! RunTest() 
+  let b:view = winsaveview()
   let filepath = @%
   let lineindent = indent('.')
   let n = line('.')
   let test_function = ''
   let test_class = split(split(getline(search('class [A-Z]')))[1], '(')[0]
-  let l:winview = winsaveview()
 
   if lineindent > 4
     while (indent(prevnonblank(n)) > 0)
@@ -322,7 +322,7 @@ function! RunTest()
     execute 'silent !tmux split-window -d -p 20 -v docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
   endif
 
-  call winrestview(l:winview)
+  call winrestview(b:view)
 endfunction
 
 command! RunTest call RunTest()
