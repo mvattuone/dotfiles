@@ -19,6 +19,8 @@ function fish_user_key_bindings
    bind -M insert -m default jk backward-char force-repaint
 end
 
+set -U fish_user_paths $HOME/n/bin $fish_user_paths
+
 # make Vim the default editor
 set --export EDITOR "mvim -v"
 
