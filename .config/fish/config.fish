@@ -12,6 +12,9 @@ and not set -q TMUX
     exec tmux -2
 end
 
+# Initialize pyenv
+status --is-interactive; and source (pyenv init -|psub)
+
 # Vim mode
 function fish_user_key_bindings
   fish_vi_key_bindings
@@ -34,8 +37,8 @@ set -g theme_nerd_fonts yes
 set -U fish_prompt_pwd_dir_length 0
 
 # Add git scripts to Path
-set PATH /Users/mikevattuone/gitScripts $PATH
+set PATH $HOME/gitScripts $PATH
 
 # Add Python to Path
-set PATH /Users/mikevattuone/Library/Python/3.7/bin $PATH
+set PATH $HOME/Library/Python/3.7/bin $PATH
 rvm default
