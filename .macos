@@ -21,7 +21,11 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 # Bash Function Helpers
 function formulaInstalled {
   if [[ ! $(brew ls --versions "$1") ]]; then 
-    brew install "$1"; 
+    if [[ $1 == "universal-ctags" ]]; then
+      brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+    else
+      brew install "$1"; 
+    fi
   else
     echo "$1 exists"
   fi 
@@ -88,9 +92,14 @@ formulaInstalled ffmpeg
 formulaInstalled heroku
 formulaInstalled fish
 formulaInstalled pyenv
+formulaInstalled fzf
 formulaInstalled gcc
 formulaInstalled gdb
+formulaInstalled sdl2
+formulaInstalled sdl2_image
+formulaInstalled sdl2_ttf
 formulaInstalled macvim --env=std
+formulaInstalled universal-ctags
 formulaInstalled diff-so-fancy
 
 echo "and upgrade any existing packages"
