@@ -22,7 +22,7 @@ function fish_user_key_bindings
    bind -M insert -m default jk backward-char force-repaint
 end
 
-set -U fish_user_paths $HOME/n/bin $fish_user_paths
+contains $fish_user_paths $HOME/n/bin; or set -U fish_user_paths $HOME/n/bin $fish_user_paths
 
 # make Vim the default editor
 set --export EDITOR "mvim -v"
@@ -37,8 +37,8 @@ set -g theme_nerd_fonts yes
 set -U fish_prompt_pwd_dir_length 0
 
 # Add git scripts to Path
-set PATH $HOME/gitScripts $PATH
+contains $PATH $HOME/gitScripts; or set PATH $HOME/gitScripts $PATH
 
 # Add Python to Path
-set PATH $HOME/Library/Python/3.7/bin $PATH
+contains $PATH $HOME/Library/Python/3.7/bin; or set PATH $HOME/Library/Python/3.7/bin $PATH
 rvm default
