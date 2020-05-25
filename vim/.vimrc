@@ -65,10 +65,11 @@ let g:jsx_ext_required = 0
 :augroup END
 
 set backup
+set hidden
 set undofile
-set backupdir=~/.vim/backup//
-set directory=~/.vim/swap//
-set undodir=~/.vim/undo//
+set backupdir=~/.vim/backup/
+set directory=~/.vim/swap/
+set undodir=~/.vim/undo/
 " should help with webpack getting triggered on save https://github.com/webpack/webpack/issues/781
 set backupcopy=yes 
 " Spaces whenever tab is pressed
