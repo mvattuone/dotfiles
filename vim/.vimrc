@@ -26,10 +26,11 @@ Plug 'pangloss/vim-javascript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/asyncomplete-flow.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prettier/vim-prettier'
 Plug 'python/black'
@@ -132,25 +133,38 @@ command! -bang -nargs=* Rg
 set rtp+=/usr/local/opt/fzf
 
 syntax enable
-let g:asyncomplete_smart_completion = 0
 let g:asyncomplete_auto_popup = 1
 let g:lsp_diagnostics_enabled = 0   
+imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 if executable('pyls')
     " pip install python-language-server
     au User lsp_setup call lsp#register_server({
         \ 'name': 'pyls',
         \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
+        \ 'allowlist': ['python'],
         \ })
 endif
+
+call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+\ 'name': 'omni',
+\ 'allowlist': ['*'],
+\ 'completor': function('asyncomplete#sources#omni#completor')
+\  }))
+
+au User lsp_setup call lsp#register_server({
+  \ 'name': 'javascript support using typescript-language-server',
+  \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+  \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+  \ 'allowlist': ['javascript', 'javascript.jsx'],
+  \ })
 
 if executable('flow')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'flow',
         \ 'cmd': {server_info->['flow', 'lsp']},
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
-        \ 'whitelist': ['javascript', 'javascript.jsx'],
+        \ 'allowlist': ['javascript', 'javascript.jsx'],
         \ })
 endif
 
@@ -161,14 +175,14 @@ if executable('cquery')
       \ 'cmd': {server_info->['cquery']},
       \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
       \ 'initialization_options': { 'cacheDirectory': '/tmp/cquery/cache' },
-      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+      \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
       \ })
 endif
 
 " Register asyncomplete-file
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
     \ 'name': 'file',
-    \ 'whitelist': ['*'],
+    \ 'allowlist': ['*'],
     \ 'priority': 10,
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
