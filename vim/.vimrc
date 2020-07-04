@@ -237,6 +237,7 @@ nmap <silent> <leader>k :ALEPrevious<cr>
 " Run black on save
 autocmd BufWritePre *.py execute ':Black'
 
+autocmd BufReadPost * call ale#balloon#Enable()
 " Hopefully makes Ale faster
 let g:ale_virtualenv_dir_names = []
 
@@ -244,14 +245,14 @@ let g:ale_virtualenv_dir_names = []
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
 
-let g:ale_linter_aliases = {'jsx': 'css'}
 
 let g:ale_linters = { 
-\'javascript': ['flow', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint']
+\'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint']
 \}
 let g:ale_fixers = {
 \'javascript': ['eslint'], 'python': ['pylint']
 \}
+let g:ale_linter_aliases = {'jsx': 'css'}
 
 " FU bell
 set vb t_vb=     
