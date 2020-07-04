@@ -110,6 +110,7 @@ nmap <Leader>/ :Rg
 :nnoremap <Leader>b <C-^>
 
 " Easier copy paste from clipboard to buffer
+set clipboard=unnamed
 :vmap <Leader>c "+y
 :nmap <Leader>p "+p
 
