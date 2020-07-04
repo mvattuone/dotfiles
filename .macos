@@ -66,6 +66,10 @@ if [[ $(brew cask list --versions font-firacode-nerd-font) == 0 ]]; then
   brew tap homebrew/cask-fonts
 fi
 
+if [[ $(brew cask list --versions docker) == 0 ]]; then
+  brew tap phinze/homebrew-cask
+fi
+
 echo "brew installing stuff"
 # git: Just this little thing I use every one in a while.
 # git-cola: For easier visual diffing
@@ -235,6 +239,7 @@ caskInstalled dropbox
 caskInstalled slack 
 caskInstalled retroarch 
 caskInstalled font-firacode-nerd-font 
+caskInstalled docker
 
 echo "handling terminal color stuff"
 tic -x ~/code/dotfiles/terminfo/tmux-256color.terminfo
