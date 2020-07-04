@@ -42,3 +42,6 @@ contains $PATH $HOME/gitScripts; or set PATH $HOME/gitScripts $PATH
 # Add Python to Path
 contains $PATH $HOME/Library/Python/3.7/bin; or set PATH $HOME/Library/Python/3.7/bin $PATH
 rvm default
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
