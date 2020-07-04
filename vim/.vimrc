@@ -11,6 +11,7 @@ call plug#begin()
 
 Plug 'airblade/vim-gitgutter'
 Plug 'andymass/vim-matchup'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'chaoren/vim-wordmotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf.vim'
@@ -20,7 +21,6 @@ Plug 'konfekt/fastfold'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
-Plug 'tomasiser/vim-code-dark'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
 Plug 'prabirshrestha/async.vim'
@@ -99,9 +99,8 @@ set foldmethod=syntax
 set foldcolumn=1
 
 
-set background=dark
-colorscheme codedark
-
+set background=light
+colorscheme PaperColor
 
 nmap <Leader>; :Buffers<CR>
 nmap <C-p> :Files<CR>
