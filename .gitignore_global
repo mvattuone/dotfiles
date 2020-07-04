@@ -1,5 +1,9 @@
 .config/StardewValley
 .config/git-cola
+.config/gatsby
+.config/oni2
+.config/yarn
 .config/fish/fishd*
 .config/configstore
+.config/fish/functions/get_pivotal_stories.fish
 tags
