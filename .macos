@@ -105,6 +105,8 @@ formulaInstalled sdl2_ttf
 formulaInstalled macvim --env=std
 formulaInstalled universal-ctags
 formulaInstalled diff-so-fancy
+formulaInstalled htop
+formulaInstalled jq
 
 echo "and upgrade any existing packages"
 brew upgrade
@@ -213,7 +215,8 @@ echo "npm --version: $(npm --version)"
 echo "installing a few global npm packages"
 npm install --global npm-quick-run \
 semantic-release-cli npm-check-updates \
-typescript typescript-language-server
+typescript typescript-language-server \
+prettier
 
 echo "installing apps with brew cask"
 caskInstalled alfred 
