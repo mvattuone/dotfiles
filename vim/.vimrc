@@ -21,8 +21,10 @@ Plug 'konfekt/fastfold'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
-Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+" Plug 'yuezk/vim-js'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/asyncomplete-flow.vim'
@@ -53,9 +55,6 @@ set omnifunc=syntaxcomplete#Complete
 let mapleader = "\<Space>"
 let g:pymode_python = 'python3'
 
-" Allow jsx syntax highlight for non `.jsx` files
-let g:jsx_ext_required = 0
-
 :set number relativenumber
 
 :augroup numbertoggle
@@ -66,10 +65,10 @@ let g:jsx_ext_required = 0
 
 set backup
 set hidden
+set backupdir=~/.vim/backup
+set directory=~/.vim/swap
+set undodir=~/.vim/undo
 set undofile
-set backupdir=~/.vim/backup/
-set directory=~/.vim/swap/
-set undodir=~/.vim/undo/
 " should help with webpack getting triggered on save https://github.com/webpack/webpack/issues/781
 set backupcopy=yes 
 " Spaces whenever tab is pressed
@@ -93,11 +92,6 @@ if exists('+termguicolors')
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
-
-" Code folding
-set foldmethod=syntax
-set foldcolumn=1
-
 
 set background=light
 colorscheme PaperColor
@@ -133,9 +127,6 @@ command! -bang -nargs=* Rg
   \   <bang>0 ? fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'up:60%')
   \           : fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
   \   <bang>0)
-
-set undodir=~/.vim/undo-dir
-set undofile
 
 " If installed using Homebrew
 set rtp+=/usr/local/opt/fzf
@@ -182,6 +173,7 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
 
+" Syntax highlight for flow (through vim-javascript)
 let g:javascript_plugin_flow = 1
 
 " Simple re-format for minified Javascript
@@ -221,7 +213,7 @@ nmap <leader>i :JsFileImport<cr>
 " Include jsx in Javascript filetype
 augroup FiletypeGroup
     autocmd!
-    au BufNewFile,BufRead *.js set filetype=css.javascript.jsx
+    au BufNewFile,BufRead *.js set filetype=javascript.jsx
 augroup END
 
 " Move through linting errors more conveniently
@@ -272,6 +264,9 @@ let g:prettier#config#parser = 'babylon'
 set foldmethod=syntax
 set foldcolumn=1
 set foldlevelstart=0
+
+" hi Folded guibg=#95467c
+" hi Folded guifg=#cfcfcf
 
 function! MyFoldText() " {{{
     let line = getline(v:foldstart)
@@ -330,6 +325,8 @@ function! RunTest()
 
   call winrestview(b:view)
 endfunction
+
+let g:vim_jsx_pretty_colorful_config = 1 
 
 command! RunTest call RunTest()
 
