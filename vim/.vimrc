@@ -90,6 +90,8 @@ set ttyfast
 set mouse=a
 " Makes the mouse actually usable (more responsive selection)
 set ttymouse=xterm2
+" Easier copy paste from clipboard to buffer
+set clipboard=unnamed
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -117,9 +119,6 @@ nmap <Leader>/ :Rg
 " Use with a number to go to buffer.
 " Or on it's own to toggle previous buffer
 :nnoremap <Leader>b <C-^>
-
-" Easier copy paste from clipboard to buffer
-set clipboard=unnamed
 :vmap <Leader>c "+y
 :nmap <Leader>p "+p
 
