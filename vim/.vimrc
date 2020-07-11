@@ -43,8 +43,11 @@ Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
+Plug 'puremourning/vimspector'
 call plug#end()
 filetype plugin indent on
+
+let g:vimspector_enable_mappings = 'HUMAN'
 
 " Resolves issues with powerline + flickering
 " https://github.com/powerline/powerline/issues/1281
