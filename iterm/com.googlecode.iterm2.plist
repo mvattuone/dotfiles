@@ -461,7 +461,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>2250 768 620 392 0 0 5120 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 5120 1417 0 0 5120 1417 </string>
+	<string>0 0 5120 1440 0 0 5120 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>0 0 1792 1097 0 0 1792 1097 </string>
 	<key>NeverWarnAboutOverrides</key>
@@ -726,7 +726,7 @@
 				<real>1</real>
 			</dict>
 			<key>Blend</key>
-			<real>0.66218991623711343</real>
+			<real>0.63881483569587627</real>
 			<key>Blink Allowed</key>
 			<false/>
 			<key>Blinking Cursor</key>
@@ -1126,7 +1126,7 @@
 			<key>Minimum Contrast</key>
 			<real>0.0</real>
 			<key>Mouse Reporting</key>
-			<true/>
+			<false/>
 			<key>Name</key>
 			<string>mvattuone</string>
 			<key>Non Ascii Font</key>
@@ -1246,9 +1246,9 @@
 	<key>NoSyncInstallationId</key>
 	<string>6766E562-27B0-492C-9483-5B3873864ACB</string>
 	<key>NoSyncLastTipTime</key>
-	<real>615494969.03735101</real>
+	<real>615872543.63199103</real>
 	<key>NoSyncLaunchExperienceControllerRunCount</key>
-	<integer>29</integer>
+	<integer>30</integer>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1954,17 +1954,20 @@
 	<key>NoSyncTipsToNotShow</key>
 	<array>
 		<string>0010</string>
+		<string>0026</string>
 		<string>0015</string>
 		<string>0004</string>
 		<string>0009</string>
 		<string>0024</string>
 		<string>0013</string>
 		<string>0002</string>
+		<string>0029</string>
 		<string>0018</string>
 		<string>0007</string>
 		<string>0022</string>
 		<string>0011</string>
 		<string>0000</string>
+		<string>0027</string>
 		<string>0016</string>
 		<string>0005</string>
 		<string>0020</string>
@@ -1979,8 +1982,9 @@
 		<string>000</string>
 		<string>0017</string>
 		<string>0006</string>
+		<string>0028</string>
 		<string>0021</string>
-		<string>0026</string>
+		<string>0030</string>
 	</array>
 	<key>OpenArrangementAtStartup</key>
 	<false/>
@@ -2016,7 +2020,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2020-07-02T20:38:49Z</date>
+	<date>2020-07-07T20:39:13Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SUUpdateGroupIdentifier</key>
