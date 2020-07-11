@@ -94,7 +94,13 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
-set background=light
+" Light mode during the day, dark mode otherwise
+" This is not very accurate but is probably sufficient
+if strftime("%H") >= 8 && strftime("%H") < 20
+  set background=light
+else
+  set background=dark
+endif
 colorscheme PaperColor
 
 nmap <Leader>; :Buffers<CR>
