@@ -22,7 +22,6 @@ Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
 Plug 'pangloss/vim-javascript'
-" Plug 'yuezk/vim-js'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'prabirshrestha/async.vim'
