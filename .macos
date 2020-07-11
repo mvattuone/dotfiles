@@ -107,6 +107,7 @@ formulaInstalled universal-ctags
 formulaInstalled diff-so-fancy
 formulaInstalled htop
 formulaInstalled jq
+formulaInstalled hugo
 
 echo "and upgrade any existing packages"
 brew upgrade
