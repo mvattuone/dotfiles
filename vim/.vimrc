@@ -1,5 +1,6 @@
 set nocompatible
 set pyxversion=3
+syntax on
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -9,11 +10,13 @@ endif
 
 call plug#begin()
 
+Plug 'vimwiki/vimwiki'
 Plug 'airblade/vim-gitgutter'
 Plug 'andymass/vim-matchup'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'chaoren/vim-wordmotion'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
@@ -43,7 +46,10 @@ Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'puremourning/vimspector'
+Plug 'junegunn/goyo.vim'
+
 call plug#end()
+
 filetype plugin indent on
 
 let g:vimspector_enable_mappings = 'HUMAN'
@@ -121,11 +127,28 @@ nmap <Leader>/ :Rg
 :vmap <Leader>c "+y
 :nmap <Leader>p "+p
 
+source ~/code/dotfiles/vim/.vimrc-goyo
+
 " Use ripgrep with fzf
 " for really really fast searching
 if executable('rg')
   let $FZF_DEFAULT_COMMAND = 'rg --vimgrep --hidden -l -i ""'
 endif
+
+" Settings for Vimwiki
+let wiki_1 = {}
+let wiki_1.path = '~/Dropbox/vimwiki/markdown/'
+let wiki_1.ext = '.md'
+let wiki_1.syntax = 'markdown'
+
+let wiki_2 = {}
+let wiki_2.path = '~/Dropbox/vimwiki/vattuonet'
+let wiki_2.ext = '.md'
+let wiki_2.index = '_index'
+let wiki_1.syntax = 'markdown'
+
+let g:vimwiki_list = [wiki_1, wiki_2]
+let g:vimwiki_auto_chdir = 1
 
 command! -bang -nargs=* Rg call fzf#vim#grep(<q-args>, {'options': '--delimiter : --nth 4..'},
 
@@ -143,7 +166,8 @@ set rtp+=/usr/local/opt/fzf
 syntax enable
 let g:asyncomplete_auto_popup = 1
 let g:lsp_diagnostics_enabled = 0   
-imap <c-space> <Plug>(asyncomplete_force_refresh)
+imap <C-l> <Plug>(asyncomplete_force_refresh)
+
 
 if executable('pyls')
     " pip install python-language-server
@@ -153,12 +177,6 @@ if executable('pyls')
         \ 'allowlist': ['python'],
         \ })
 endif
-
-call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-\ 'name': 'omni',
-\ 'allowlist': ['*'],
-\ 'completor': function('asyncomplete#sources#omni#completor')
-\  }))
 
 au User lsp_setup call lsp#register_server({
   \ 'name': 'javascript support using typescript-language-server',
@@ -187,11 +205,19 @@ if executable('cquery')
       \ })
 endif
 
+" Register asyncomplete-omni
+call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+\ 'name': 'omni',
+\ 'allowlist': ['*'],
+\ 'priority': 10,
+\ 'completor': function('asyncomplete#sources#omni#completor')
+\  }))
+
 " Register asyncomplete-file
 au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
     \ 'name': 'file',
     \ 'allowlist': ['*'],
-    \ 'priority': 10,
+    \ 'priority': 20,
     \ 'completor': function('asyncomplete#sources#file#completor')
     \ }))
 
@@ -236,6 +262,7 @@ nmap <leader>i :JsFileImport<cr>
 augroup FiletypeGroup
     autocmd!
     au BufNewFile,BufRead *.js set filetype=javascript.jsx
+    au BufNewFile,BufRead ~/Dropbox/vimwiki/markdown set filetype=vimwiki
 augroup END
 
 " Move through linting errors more conveniently
