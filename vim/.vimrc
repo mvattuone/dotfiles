@@ -1,4 +1,5 @@
 set nocompatible
+" Function that calls Selenium test runner for idealist app
 set pyxversion=3
 syntax on
 
@@ -13,14 +14,18 @@ call plug#begin()
 Plug 'vimwiki/vimwiki'
 Plug 'airblade/vim-gitgutter'
 Plug 'andymass/vim-matchup'
+Plug 'vim-scripts/Zenburn'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'tomasiser/vim-code-dark'
 Plug 'chaoren/vim-wordmotion'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'Avi-D-coder/fzf-wordnet.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
 Plug 'konfekt/fastfold'
+Plug 'ayu-theme/ayu-vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
@@ -34,8 +39,6 @@ Plug 'prabirshrestha/asyncomplete-flow.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'prettier/vim-prettier'
-Plug 'python/black'
 Plug 'ryanolsonx/vim-lsp-javascript'
 Plug 'sickill/vim-pasta'
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -45,6 +48,7 @@ Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
+Plug 'qpkorr/vim-bufkill'
 Plug 'puremourning/vimspector'
 Plug 'junegunn/goyo.vim'
 
@@ -57,6 +61,8 @@ let g:vimspector_enable_mappings = 'HUMAN'
 " Resolves issues with powerline + flickering
 " https://github.com/powerline/powerline/issues/1281
 set showtabline=2
+
+
 
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
@@ -93,8 +99,10 @@ set ttyfast
 
 " Enable mouse support because sometimes you just gotta use it.
 set mouse=a
+if has('mouse_sgr')
+set ttymouse=sgr
+endif
 " Makes the mouse actually usable (more responsive selection)
-set ttymouse=xterm2
 " Easier copy paste from clipboard to buffer
 set clipboard=unnamed
 
@@ -108,10 +116,11 @@ endif
 " This is not very accurate but is probably sufficient
 if strftime("%H") >= 8 && strftime("%H") < 20
   set background=light
+  colorscheme PaperColor
 else
   set background=dark
+  colorscheme codedark
 endif
-colorscheme PaperColor
 
 nmap <Leader>; :Buffers<CR>
 nmap <C-p> :Files<CR>
@@ -129,11 +138,38 @@ nmap <Leader>/ :Rg
 
 source ~/code/dotfiles/vim/.vimrc-goyo
 
+" Replace default grep 
+"set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+
 " Use ripgrep with fzf
 " for really really fast searching
 if executable('rg')
   let $FZF_DEFAULT_COMMAND = 'rg --vimgrep --hidden -l -i ""'
 endif
+command! -bang -nargs=* Rg call fzf#vim#grep(<q-args>, {'options': '--delimiter : --nth 4..'},
+
+" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --vimgrep --column --line-number --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'up:60%')
+  \           : fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0)
+" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column G-multiline --line-number --no-heading --color=always --smart-case ".<q-args>, 1, <bang>0)
+"
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+
+" Close buffer (won't close split)
+nnoremap <Leader>d :BD<CR>
 
 " Settings for Vimwiki
 let wiki_1 = {}
@@ -145,20 +181,14 @@ let wiki_2 = {}
 let wiki_2.path = '~/Dropbox/vimwiki/vattuonet'
 let wiki_2.ext = '.md'
 let wiki_2.index = '_index'
-let wiki_1.syntax = 'markdown'
+let wiki_2.syntax = 'markdown'
+let wiki_2.custom_wiki2html='~/code/dotfiles/wiki2html.sh'
+let wiki_2.path_html='~/code/vattuonet/public'
+let wiki_2.path='~/Dropbox/vimwiki/vattuonet'
 
 let g:vimwiki_list = [wiki_1, wiki_2]
 let g:vimwiki_auto_chdir = 1
 
-command! -bang -nargs=* Rg call fzf#vim#grep(<q-args>, {'options': '--delimiter : --nth 4..'},
-
-" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --vimgrep --column --line-number --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'up:60%')
-  \           : fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
-  \   <bang>0)
 
 " If installed using Homebrew
 set rtp+=/usr/local/opt/fzf
@@ -167,6 +197,34 @@ syntax enable
 let g:asyncomplete_auto_popup = 1
 let g:lsp_diagnostics_enabled = 0   
 imap <C-l> <Plug>(asyncomplete_force_refresh)
+
+imap <C-s> <Plug>(fzf-complete-wordnet)
+
+" Make a timestamp
+nmap <Leader>ts i<C-R>=strftime("%-I:%M %p")<CR><Esc>
+imap <Leader>ts <C-R>=strftime("%-I:%M %p")<CR>
+
+function! s:on_lsp_buffer_enabled() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+
+    " refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+    au!
+    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 
 if executable('pyls')
@@ -223,6 +281,7 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
 
 " Syntax highlight for flow (through vim-javascript)
 let g:javascript_plugin_flow = 1
+let g:jsx_ext_required = 0
 
 " Simple re-format for minified Javascript
 command! UnMinify call UnMinify()
@@ -269,25 +328,19 @@ augroup END
 nmap <silent> <leader>j :ALENext<cr>
 nmap <silent> <leader>k :ALEPrevious<cr>
 
-" Run black on save
-autocmd BufWritePre *.py execute ':Black'
-
 autocmd BufReadPost * call ale#balloon#Enable()
-" Hopefully makes Ale faster
-let g:ale_virtualenv_dir_names = []
 
-" Use quickfix window for Ale rather than location list window
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-
+let g:ale_lint_on_enter = 0
+let g:ale_linters_explicit = 1
 
 let g:ale_linters = { 
-\'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint']
+\'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint', 'prettier']
 \}
 let g:ale_fixers = {
-\'javascript': ['eslint'], 'python': ['pylint']
+\'javascript': ['eslint', 'prettier'], 'python': ['black'], 'css': ['prettier']
 \}
 let g:ale_linter_aliases = {'jsx': 'css'}
+let g:ale_fix_on_save = 1
 
 " FU bell
 set vb t_vb=     
@@ -304,11 +357,6 @@ set wildmenu
 set wildmode=longest,list
 " Ignore node_modules
 set wildignore+=*node_modules/**
-
-" Disable auto formatting of files that have "@format" tag
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-let g:prettier#config#parser = 'babylon'
 
 " Code folding
 set foldmethod=syntax
@@ -344,6 +392,7 @@ let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 nnoremap <leader>m :silent make\|redraw!<cr>
 
 " Function that calls Selenium test runner for idealist app
+"
 " Either test whole class or function
 function! RunTest() 
   let b:view = winsaveview()
@@ -379,6 +428,12 @@ endfunction
 let g:vim_jsx_pretty_colorful_config = 1 
 
 command! RunTest call RunTest()
+
+" Run Test
+nmap <Leader>r :RunTest<CR> 
+
+" Make a timestamp
+nmap <Leader>t <C-R>=strftime("%-I:%M %p")<CR>
 
 " Shamelessly lifted from https://github.com/samuelsimoes/vim-jsx-utils/blob/master/plugin/vim-jsx-utils.vim
 function! JSXIsSelfCloseTag()

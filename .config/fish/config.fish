@@ -1,7 +1,11 @@
-alias v "mvim -v"
+alias do "todoist"
+alias v "mvim -v -w ~/code/dotfiles/vim/keystrokes.log"
 alias dc "docker-compose"
 alias dcs "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml"
 alias t "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py --no-screenshot" 
+
+# Start vnc server
+alias vnc "~/code/noVNC-1.2.0/utils/launch.sh"
 
 # Initialize autojump 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
@@ -43,5 +47,40 @@ contains $PATH $HOME/gitScripts; or set PATH $HOME/gitScripts $PATH
 contains $PATH $HOME/Library/Python/3.7/bin; or set PATH $HOME/Library/Python/3.7/bin $PATH
 rvm default
 
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+setenv SSH_ENV $HOME/.ssh/environment
 
+function start_agent                                                                                                                                                                    
+    echo "Initializing new SSH agent ..."
+    ssh-agent -c | sed 's/^echo/#echo/' > $SSH_ENV
+    echo "succeeded"
+    chmod 600 $SSH_ENV 
+    . $SSH_ENV > /dev/null
+    ssh-add
+end
+
+function test_identities                                                                                                                                                                
+    ssh-add -l | grep "The agent has no identities" > /dev/null
+    if [ $status -eq 0 ]
+        ssh-add
+        if [ $status -eq 2 ]
+            start_agent
+        end
+    end
+end
+
+if [ -n "$SSH_AGENT_PID" ] 
+    ps -ef | grep $SSH_AGENT_PID | grep ssh-agent > /dev/null
+    if [ $status -eq 0 ]
+        test_identities
+    end  
+else
+    if [ -f $SSH_ENV ]
+        . $SSH_ENV > /dev/null
+    end  
+    ps -ef | grep $SSH_AGENT_PID | grep -v grep | grep ssh-agent > /dev/null
+    if [ $status -eq 0 ]
+        test_identities
+    else 
+        start_agent
+    end  
+end

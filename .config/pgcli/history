@@ -1,0 +1,8 @@
+
+# 2020-10-08 15:12:57.613493
++SELECT t.id, t.created, u.email
++  FROM auth_tokens AS t
++  JOIN users AS u
++    ON t.user_id = u.id
++  ORDER BY t.created DESC
++  LIMIT 100;

@@ -70,6 +70,18 @@ if [[ $(brew cask list --versions docker) == 0 ]]; then
   brew tap phinze/homebrew-cask
 fi
 
+if [[ $(brew ls --versions todoist) == 0 ]]; then
+  brew tap sachaos/todoist
+fi
+
+if [[ $brew ls --versions lazydocker == 0]]; then
+  brew tap brew install jesseduffield/lazydocker
+fi
+
+if [[ $brew ls --versions lazygit == 0]]; then
+  brew tap brew install jesseduffield/lazygit
+fi
+
 echo "brew installing stuff"
 # git: Just this little thing I use every one in a while.
 # git-cola: For easier visual diffing
@@ -85,6 +97,8 @@ echo "brew installing stuff"
 # gcc: compile c
 # gdb: debug c stuff
 # diff-so-fancy: nicer git diffs
+# lazydocker: manage docker in terminal lazily
+# lazygit: manage git in terminal lazily
 formulaInstalled autojump
 formulaInstalled git
 formulaInstalled git-cola
@@ -108,6 +122,9 @@ formulaInstalled diff-so-fancy
 formulaInstalled htop
 formulaInstalled jq
 formulaInstalled hugo
+formulaInstalled todoist
+formulaInstalled lazydocker
+formulaInstalled lazygit
 
 echo "and upgrade any existing packages"
 brew upgrade
@@ -891,7 +908,7 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 
 printf "TODO:\n\
 install: \n\
-  Runcat (App Store) \n\
+  God I don't even know...
 \n\
 Import iterm2 config\n\
 login to literally everything \n\
