@@ -151,7 +151,7 @@ command! -bang -nargs=* Rg call fzf#vim#grep(<q-args>, {'options': '--delimiter 
 " Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --vimgrep --column --line-number --color=always '.shellescape(<q-args>), 1,
+  \   'rg --vimgrep --column --line-number --multiline --color=always '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'up:60%')
   \           : fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
   \   <bang>0)
@@ -330,6 +330,7 @@ nmap <silent> <leader>k :ALEPrevious<cr>
 
 autocmd BufReadPost * call ale#balloon#Enable()
 
+let g:ale_set_highlights = 0
 let g:ale_lint_on_enter = 0
 let g:ale_linters_explicit = 1
 
