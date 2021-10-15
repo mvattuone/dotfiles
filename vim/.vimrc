@@ -39,7 +39,7 @@ Plug 'prabirshrestha/asyncomplete-flow.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'ryanolsonx/vim-lsp-javascript'
+Plug 'mattn/vim-lsp-settings'
 Plug 'sickill/vim-pasta'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-commentary'
@@ -226,43 +226,6 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
-
-
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'allowlist': ['python'],
-        \ })
-endif
-
-au User lsp_setup call lsp#register_server({
-  \ 'name': 'javascript support using typescript-language-server',
-  \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-  \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
-  \ 'allowlist': ['javascript', 'javascript.jsx'],
-  \ })
-
-if executable('flow')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'flow',
-        \ 'cmd': {server_info->['flow', 'lsp']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), '.flowconfig'))},
-        \ 'allowlist': ['javascript', 'javascript.jsx'],
-        \ })
-endif
-
-" brew install cquery
-if executable('cquery')
-   au User lsp_setup call lsp#register_server({
-      \ 'name': 'cquery',
-      \ 'cmd': {server_info->['cquery']},
-      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': { 'cacheDirectory': '/tmp/cquery/cache' },
-      \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-      \ })
-endif
 
 " Register asyncomplete-omni
 call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
