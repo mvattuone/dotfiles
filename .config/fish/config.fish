@@ -86,3 +86,5 @@ else
     end  
 end
 set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
+
+set -x N_PREFIX "$HOME/n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
