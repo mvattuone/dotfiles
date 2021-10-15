@@ -51,6 +51,7 @@ Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'puremourning/vimspector'
 Plug 'junegunn/goyo.vim'
+Plug 'stevearc/vim-arduino'
 
 call plug#end()
 
