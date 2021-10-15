@@ -29,6 +29,7 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
+
 Plug 'pangloss/vim-javascript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'maxmellon/vim-jsx-pretty'
@@ -298,13 +299,13 @@ let g:ale_set_highlights = 0
 let g:ale_lint_on_enter = 0
 let g:ale_linters_explicit = 1
 
-let g:ale_linters = { 
-\'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint', 'prettier']
-\}
 let g:ale_fixers = {
 \'javascript': ['eslint', 'prettier'], 'python': ['black'], 'css': ['prettier']
 \}
-let g:ale_linter_aliases = {'jsx': 'css'}
+let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
+let g:ale_linters = { 
+\'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint', 'prettier']
+\}
 let g:ale_fix_on_save = 1
 
 " FU bell
@@ -381,10 +382,10 @@ function! RunTest()
 
   if len(test_function) <= 0
     echo 'Running test suite' . filepath . '::' . test_class
-    execute 'silent !tmux -2 split-window -d ! -v -f docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r' 
+    execute 'silent !tmux -2 split-window -d ! -v -f docker-compose -f docker-compose.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r' 
   else
     echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
-    execute 'silent !tmux split-window -d -p 20 -v docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
+    execute 'silent !tmux split-window -d -p 20 -v docker-compose -f docker-compose.yml  run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
   endif
 
   call winrestview(b:view)
