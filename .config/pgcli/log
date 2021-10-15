@@ -1,4 +1,0 @@
-2020-10-08 15:12:32,350 (89487/MainThread) pgcli.main INFO - No default pager found in environment. Using os default pager
-2020-10-08 15:12:32,351 (89487/MainThread) pgcli.main WARNING - import keyring failed: ModuleNotFoundError("No module named 'keyring'").
-2020-11-30 11:32:18,533 (19908/MainThread) pgcli.main INFO - No default pager found in environment. Using os default pager
-2020-11-30 11:32:18,533 (19908/MainThread) pgcli.main WARNING - import keyring failed: ModuleNotFoundError("No module named 'keyring'").
