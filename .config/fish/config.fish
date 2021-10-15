@@ -1,11 +1,12 @@
 alias do "todoist"
 alias v "mvim -v -w ~/code/dotfiles/vim/keystrokes.log"
 alias dc "docker-compose"
-alias dcs "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml"
-alias t "docker-compose -f docker-compose.yml -f docker-compose.selenium.yml run tester python runtests.py --no-screenshot" 
+alias dcs "docker-compose" 
+alias t "docker-compose -f docker-compose.yml run tester python runtests.py --no-screenshot" 
+alias current_version "yarn list --pattern"
 
 # Start vnc server
-alias vnc "~/code/noVNC-1.2.0/utils/launch.sh"
+alias vnc "cd /Users/mvattuone/code/noVNC-1.2.0 && /bin/bash utils/launch.sh --vnc localhost:5901"
 
 # Initialize autojump 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
@@ -84,3 +85,4 @@ else
         start_agent
     end  
 end
+set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
