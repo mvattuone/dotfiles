@@ -63,6 +63,10 @@ else
     brew update
 fi
 
+
+# add brew taps
+HOMEBREW_NO_AUTO_UPDATE=1 brew tap homebrew/cask-fonts
+
 echo "installing formulas"
 formulaInstalled autojump
 formulaInstalled git
@@ -207,7 +211,7 @@ caskInstalled zoom
 caskInstalled spotify 
 caskInstalled dropbox 
 caskInstalled slack 
-caskInstalled font-firacode-nerd-font 
+caskInstalled font-fira-code-nerd-font 
 caskInstalled docker
 caskInstalled bettertouchtool
 
