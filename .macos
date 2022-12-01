@@ -32,7 +32,7 @@ function formulaInstalled {
 }
 
 function caskInstalled {
-  if [[ ! $(brew cask list --versions "$1") ]]; then 
+  if [[ ! $(brew list --cask --versions "$1") ]]; then 
     brew install --cask "$1" ${2:-}; 
   else 
     echo "$1 already installed, upgrading instead"
@@ -40,29 +40,55 @@ function caskInstalled {
   fi 
 }
 
+function commandExists {
+  command -v $1 >/dev/null 2>&1 || 0
+}
+
 echo "Well ${whoami}, it looks like you fucked up again and got a new laptop. Let's save you some time."
 
-CODE_PATH="${HOME}/code"
+CODE_PATH="${HOME}/Code"
 echo "mkdir -p ${CODE_PATH}"
 mkdir -p "${CODE_PATH}"
 
 # Update some OSX software in case a brew package needs it or something
 softwareupdate --all --install --force
 
-command -v brew
-if [[ $(command -v brew) != 0 ]]; then
-  echo "brew installed, updating instead."
-  brew update
+which -s brew
+if [[ $? != 0 ]] ; then
+    # Install Homebrew
+    echo "installing brew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 else
-  # Install Homebrew
-  echo "installing homebrew"
-  # install homebrew https://brew.sh
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    echo "brew is installed, updating instead"
+    brew update
 fi
 
-echo "installing git"
-# git: Just this little thing I use every one in a while.
+echo "installing formulas"
+formulaInstalled autojump
 formulaInstalled git
+formulaInstalled git-cola
+formulaInstalled tmux
+formulaInstalled pyenv
+formulaInstalled ripgrep
+formulaInstalled imagemagick
+formulaInstalled ffmpeg
+formulaInstalled heroku
+formulaInstalled fish
+formulaInstalled pyenv
+formulaInstalled fzf
+formulaInstalled gcc
+formulaInstalled gdb
+formulaInstalled sdl2
+formulaInstalled sdl2_image
+formulaInstalled sdl2_ttf
+formulaInstalled universal-ctags
+formulaInstalled diff-so-fancy
+formulaInstalled htop
+formulaInstalled jq
+formulaInstalled neovim
+
+echo "installing fish shell"
+formulaInstalled fish
 
 if grep -q usr/local/bin/fish /etc/shells; then 
   echo "fish already in /etc/shells, skipping"
@@ -80,17 +106,7 @@ fi
 
 echo "setting up ssh"
 eval "$(ssh-agent -s)" 
-ssh-add -K ~/.ssh/id_rsa 
-
-if [[ $(test -d "$HOME/.local/share/omf") == 0 ]]; then
-  echo "installing oh-my-fish"
-  curl -NL https://get.oh-my.fish > install
-  fish ./install --noninteractive 
-  # remove the config that gets created, we'll symlink our own
-  rm -rf ${HOME}/.config
-else
-  echo "oh-my-fish is already installed"
-fi
+ssh-add -K ~/.ssh/mike_ssh_key
 
 DOTFILES="${CODE_PATH}/dotfiles"
 if [[ ! -d "$DOTFILES" ]]; then
@@ -112,6 +128,14 @@ ln -sf "${DOTFILES}/.gitconfig" "${HOME}/.gitconfig"
 ln -sf "${DOTFILES}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 ln -sf "${DOTFILES}/vim/.vimrc" "${HOME}/.vimrc"
 ln -sf "${DOTFILES}/brew/Brewfile" "${HOME}/Brewfile"
+
+if commandExists omf; then
+  echo "oh-my-fish is already installed"
+else
+  echo "installing oh-my-fish"
+  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
+  fish install --path=~/.local/share/omf --config=~/.config/omf
+fi
 
 echo "some vim setup"
 VIM_PATH="${HOME}/.vim"
@@ -141,15 +165,14 @@ fish -c "omf install"
 fish -c "omf theme bobthefish"
 
 # set up python
-pyenv install 3.8.12
+pyenv install 3.10.8
 eval "$(pyenv init -)" 
 pip3 install --user powerline-status 
 echo "python version: $(python --version)"
 
 # rbenv for ruby
 # i don't use ruby much but sometimes i need it for dependencies
-command -v rvm
-if [[ $(command -v rvm) != 0 ]]; then
+if commandExists rvm; then
   echo "rvm installed, upgrading instead."
   rvm get stable
 else
@@ -174,7 +197,6 @@ prettier
 
 echo "installing apps via Brewfile"
 caskInstalled alfred 
-caskInstalled amethyst
 caskInstalled iterm2 
 caskInstalled google-chrome 
 caskInstalled firefox 
@@ -185,28 +207,21 @@ caskInstalled zoom
 caskInstalled spotify 
 caskInstalled dropbox 
 caskInstalled slack 
-caskInstalled retroarch 
 caskInstalled font-firacode-nerd-font 
 caskInstalled docker
+caskInstalled bettertouchtool
 
 echo "handling terminal color stuff"
-tic -x ~/code/dotfiles/terminfo/tmux-256color.terminfo
-tic -x ~/code/dotfiles/terminfo/xterm-256color-italic.terminfo
+tic -x ~/Code/dotfiles/terminfo/tmux-256color.terminfo
+tic -x ~/Code/dotfiles/terminfo/xterm-256color-italic.terminfo
 
-echo "making system modifications:"
-
-# Make Chrome Two finger swipe for back and forward
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool TRUE
-
-# Show battery percentage
-defaults write com.apple.menuextra.battery ShowPercent YES
+# TODO: Export bettertouchtool keyboard shortcuts to dotfiles once I have
+# it set up and import that here
+# echo "Importing bettertouchtool presets"
 
 ###############################################################################
 # Cleanup
 ###############################################################################
-
-# Remove files generated
-rm -rf install
 
 for app in "Activity Monitor" \
   "Address Book" \
@@ -228,8 +243,8 @@ echo "Done. Note that some of these changes require a logout/restart to take eff
 
 printf "TODO:\n\
 install: \n\
-  God I don't even know...
+
 \n\
 Import iterm2 config\n\
-login to literally everything \n\
+Scan one password QR code on phone to get access
 "
