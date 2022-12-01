@@ -66,6 +66,7 @@ fi
 
 # add brew taps
 HOMEBREW_NO_AUTO_UPDATE=1 brew tap homebrew/cask-fonts
+HOMEBREW_NO_AUTO_UPDATE=1 brew tap heroku/brew
 
 echo "installing formulas"
 formulaInstalled autojump
@@ -215,6 +216,7 @@ caskInstalled slack
 caskInstalled font-fira-code-nerd-font 
 caskInstalled docker
 caskInstalled bettertouchtool
+caskInstalled heroku
 
 echo "handling terminal color stuff"
 tic -x ~/Code/dotfiles/terminfo/tmux-256color.terminfo
@@ -251,5 +253,6 @@ install: \n\
 
 \n\
 Import iterm2 config\n\
+Change font in profile to FiraCode Nerd Font
 Scan one password QR code on phone to get access
 "
