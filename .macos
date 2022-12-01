@@ -90,6 +90,7 @@ formulaInstalled diff-so-fancy
 formulaInstalled htop
 formulaInstalled jq
 formulaInstalled neovim
+formulaInstalled pgcli
 
 echo "installing fish shell"
 formulaInstalled fish
