@@ -33,26 +33,52 @@ Plug 'markonm/traces.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-flow.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'yami-beta/asyncomplete-omni.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
 Plug 'sickill/vim-pasta'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'w0rp/ale'
 Plug 'wellle/targets.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'puremourning/vimspector'
 Plug 'junegunn/goyo.vim'
 Plug 'stevearc/vim-arduino'
+
+if has('nvim')
+  " LSP Support
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+
+  " Autocompletion
+  Plug 'hrsh7th/nvim-cmp'
+  Plug 'hrsh7th/cmp-buffer'
+  Plug 'hrsh7th/cmp-path'
+  Plug 'petertriho/cmp-git'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-nvim-lua'
+
+  "  Snippets
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'rafamadriz/friendly-snippets'
+
+  " Misc
+  Plug 'nvim-lua/plenary.nvim'
+
+  Plug 'VonHeikemen/lsp-zero.nvim'
+else
+  Plug 'w0rp/ale'
+  Plug 'prabirshrestha/async.vim'
+  Plug 'prabirshrestha/asyncomplete.vim'
+  Plug 'prabirshrestha/asyncomplete-file.vim'
+  Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'yami-beta/asyncomplete-omni.vim'
+  Plug 'prabirshrestha/vim-lsp'
+  Plug 'mattn/vim-lsp-settings'
+endif
 
 call plug#end()
 
@@ -196,57 +222,79 @@ let g:vimwiki_auto_chdir = 1
 set rtp+=/usr/local/opt/fzf
 
 syntax enable
-let g:asyncomplete_auto_popup = 1
-let g:lsp_diagnostics_enabled = 0   
-imap <C-l> <Plug>(asyncomplete_force_refresh)
+
+if !has('nvim')
+  let g:asyncomplete_auto_popup = 1
+  let g:lsp_diagnostics_enabled = 0   
+  imap <C-l> <Plug>(asyncomplete_force_refresh)
+
+
+  " Register asyncomplete-omni
+  call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+  \ 'name': 'omni',
+  \ 'allowlist': ['*'],
+  \ 'priority': 10,
+  \ 'completor': function('asyncomplete#sources#omni#completor')
+  \  }))
+
+  " Register asyncomplete-file
+  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+      \ 'name': 'file',
+      \ 'allowlist': ['*'],
+      \ 'priority': 20,
+      \ 'completor': function('asyncomplete#sources#file#completor')
+      \ }))
+
+  let g:ale_set_highlights = 0
+  let g:ale_lint_on_enter = 0
+  let g:ale_linters_explicit = 1
+
+  let g:ale_fixers = {
+  \'javascript': ['eslint', 'prettier'], 'python': ['black'], 'css': ['prettier']
+  \}
+  let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
+  let g:ale_linters = { 
+  \'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint', 'prettier']
+  \}
+  let g:ale_fix_on_save = 1
+
+
+  " Move through linting errors more conveniently
+  nmap <silent> <leader>j :ALENext<cr>
+  nmap <silent> <leader>k :ALEPrevious<cr>
+
+  autocmd BufReadPost * call ale#balloon#Enable()
+
+  function! s:on_lsp_buffer_enabled() abort
+      setlocal omnifunc=lsp#complete
+      setlocal signcolumn=yes
+      if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+      nmap <buffer> gd <plug>(lsp-definition)
+      nmap <buffer> gr <plug>(lsp-references)
+      nmap <buffer> gi <plug>(lsp-implementation)
+      nmap <buffer> gt <plug>(lsp-type-definition)
+      nmap <buffer> <leader>rn <plug>(lsp-rename)
+      nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
+      nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
+      nmap <buffer> K <plug>(lsp-hover)
+
+      " refer to doc to add more commands
+  endfunction
+
+  augroup lsp_install
+      au!
+      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+  augroup END
+endif
+
+
 
 imap <C-s> <Plug>(fzf-complete-wordnet)
 
 " Make a timestamp
 nmap <Leader>ts i<C-R>=strftime("%-I:%M %p")<CR><Esc>
 imap <Leader>ts <C-R>=strftime("%-I:%M %p")<CR>
-
-function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-
-    " refer to doc to add more commands
-endfunction
-
-augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
-
-" Register asyncomplete-omni
-call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-\ 'name': 'omni',
-\ 'allowlist': ['*'],
-\ 'priority': 10,
-\ 'completor': function('asyncomplete#sources#omni#completor')
-\  }))
-
-" Register asyncomplete-file
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-    \ 'name': 'file',
-    \ 'allowlist': ['*'],
-    \ 'priority': 20,
-    \ 'completor': function('asyncomplete#sources#file#completor')
-    \ }))
-
-" Syntax highlight for flow (through vim-javascript)
-let g:javascript_plugin_flow = 1
-let g:jsx_ext_required = 0
 
 " Simple re-format for minified Javascript
 command! UnMinify call UnMinify()
@@ -276,7 +324,6 @@ set guifont=Fira\ Code:h12
 let g:Powerline_symbols = 'fancy'
 set encoding=utf-8
 set fillchars+=stl:\ ,stlnc:\
-set term=xterm
 set termencoding=utf-8
 
 " Attempt to import a file programmatically using `universal-ctags`. YMMV
@@ -288,25 +335,6 @@ augroup FiletypeGroup
     au BufNewFile,BufRead *.js set filetype=javascript.jsx
     au BufNewFile,BufRead ~/Dropbox/vimwiki/markdown set filetype=vimwiki
 augroup END
-
-" Move through linting errors more conveniently
-nmap <silent> <leader>j :ALENext<cr>
-nmap <silent> <leader>k :ALEPrevious<cr>
-
-autocmd BufReadPost * call ale#balloon#Enable()
-
-let g:ale_set_highlights = 0
-let g:ale_lint_on_enter = 0
-let g:ale_linters_explicit = 1
-
-let g:ale_fixers = {
-\'javascript': ['eslint', 'prettier'], 'python': ['black'], 'css': ['prettier']
-\}
-let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
-let g:ale_linters = { 
-\'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint', 'prettier']
-\}
-let g:ale_fix_on_save = 1
 
 " FU bell
 set vb t_vb=     
