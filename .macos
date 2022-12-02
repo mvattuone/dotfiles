@@ -129,11 +129,42 @@ if [[ ! $(test -d "$HOME/.config") == 0 ]]; then
 else
   echo "already symlinked ~/.config, skip"
 fi
-ln -sf "${DOTFILES}/.gitignore_global" "${HOME}/.gitignore_global"
-ln -sf "${DOTFILES}/.gitconfig" "${HOME}/.gitconfig" 
-ln -sf "${DOTFILES}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
-ln -sf "${DOTFILES}/vim/.vimrc" "${HOME}/.vimrc"
-ln -sf "${DOTFILES}/brew/Brewfile" "${HOME}/Brewfile"
+
+if [[ ! $(test -d "$HOME/.gitignore_global") == 0 ]]; then
+  ln -sf "${DOTFILES}/.gitignore_global" "${HOME}/.gitignore_global"
+else
+  echo "already symlinked ~/.gitignore_global, skip"
+fi
+
+if [[ ! $(test -d "$HOME/.gitconfig") == 0 ]]; then
+  ln -sf "${DOTFILES}/.gitconfig" "${HOME}/.gitconfig"
+else
+  echo "already symlinked ~/.gitconfig, skip"
+fi
+
+if [[ ! $(test -d "$HOME/gitScripts") == 0 ]]; then
+  ln -sf "${DOTFILES}/gitScripts" "${HOME}"
+else
+  echo "already symlinked ~/gitScripts, skip"
+fi
+
+if [[ ! $(test -d "$HOME/.tmux.conf") == 0 ]]; then
+  ln -sf "${DOTFILES}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
+else
+  echo "already symlinked ~/.tmux.conf, skip"
+fi
+
+if [[ ! $(test -d "$HOME/.vimrc") == 0 ]]; then
+  ln -sf "${DOTFILES}/vim/.vimrc" "${HOME}/.vimrc"
+else
+  echo "already symlinked ~/.vimrc, skip"
+fi
+
+if [[ ! $(test -d "$HOME/Brewfile") == 0 ]]; then
+  ln -sf "${DOTFILES}/brew/Brewfile" "${HOME}/Brewfile"
+else
+  echo "already symlinked ~/Brewfile, skip"
+fi
 
 if commandExists omf; then
   echo "oh-my-fish is already installed"
