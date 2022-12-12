@@ -52,6 +52,10 @@ if has('nvim')
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
 
+  " Diagnostics
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'folke/trouble.nvim'
+
   " Autocompletion
   Plug 'hrsh7th/nvim-cmp'
   Plug 'hrsh7th/cmp-buffer'
@@ -288,7 +292,12 @@ if !has('nvim')
   augroup END
 endif
 
-
+nnoremap gj :lua vim.diagnostic.goto_next()<cr>
+nnoremap gk :lua vim.diagnostic.goto_prev()<cr>
+nnoremap <silent> gx <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gt <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
 
 imap <C-s> <Plug>(fzf-complete-wordnet)
 
