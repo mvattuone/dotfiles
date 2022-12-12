@@ -34,15 +34,16 @@ lua <<EOF
     end
   })
 
+
+  lsp.setup()
+
   null_ls.setup({
     on_attach = null_opts.on_attach,
     sources = {
-      null_ls.builtins.formatting.prettier,
+      null_ls.builtins.formatting.prettierd,
       null_ls.builtins.diagnostics.eslint_d,
     }
   })
-
-  lsp.setup()
 
   vim.diagnostic.config({
     virtual_text = true
