@@ -29,11 +29,11 @@ end
 
 contains $fish_user_paths $HOME/n/bin; or set -U fish_user_paths $HOME/n/bin $fish_user_paths
 
-# make Vim the default editor
-set --export EDITOR "mvim -v"
+# make Neovim the default editor
+set --export EDITOR "nvim"
 
-# make Vim usable with git
-set --export GIT_EDITOR "mvim -v"
+# make Neovim usable with git
+set --export GIT_EDITOR "nvim"
 
 # Use nerd fonts
 set -g theme_nerd_fonts yes
