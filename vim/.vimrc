@@ -35,6 +35,7 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'sickill/vim-pasta'
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -292,6 +293,17 @@ if !has('nvim')
       autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
   augroup END
 endif
+
+function! ToggleGstatus() abort
+for l:winnr in range(1, winnr('$'))
+  if !empty(getwinvar(l:winnr, 'fugitive_status'))
+    exe l:winnr 'close'
+    return
+  endif
+endfor
+keepalt Git
+endfunction
+nnoremap <Leader>g :call ToggleGstatus()<CR>
 
 nnoremap gj :lua vim.diagnostic.goto_next()<cr>
 nnoremap gk :lua vim.diagnostic.goto_prev()<cr>
