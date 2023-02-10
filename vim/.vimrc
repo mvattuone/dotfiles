@@ -71,6 +71,7 @@ if has('nvim')
 
   " Misc
   Plug 'nvim-lua/plenary.nvim'
+  Plug 'karb94/neoscroll.nvim'
 
   Plug 'VonHeikemen/lsp-zero.nvim'
 else

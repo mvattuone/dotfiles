@@ -48,4 +48,6 @@ lua <<EOF
   vim.diagnostic.config({
     virtual_text = true
   })
+
+  require('neoscroll').setup()
 EOF
