@@ -311,6 +311,7 @@ nnoremap <silent> gx <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gt <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gn <cmd>lua vim.lsp.buf.rename()<CR>
 
 imap <C-s> <Plug>(fzf-complete-wordnet)
 
