@@ -1,7 +1,6 @@
 package config
 package https://github.com/edc/bass
 package https://github.com/jhillyerd/plugin-git
-package tmux-zen
 theme agnoster
 theme bobthefish
 theme default

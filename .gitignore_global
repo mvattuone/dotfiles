@@ -7,3 +7,4 @@
 .config/configstore
 .config/fish/functions/get_pivotal_stories.fish
 tags
+docker-compose.override.yml

@@ -14,6 +14,7 @@ lua <<EOF
     'tsserver',
     'eslint',
     'pyright',
+    'rust_analyzer',
   })
 
   lsp.nvim_workspace()
@@ -40,6 +41,7 @@ lua <<EOF
   null_ls.setup({
     on_attach = null_opts.on_attach,
     sources = {
+      null_ls.builtins.formatting.rustfmt,
       null_ls.builtins.formatting.prettierd,
       null_ls.builtins.diagnostics.eslint_d,
     }

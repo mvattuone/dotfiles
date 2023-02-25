@@ -1,3 +1,9 @@
+# Add brew to path (for apple silicon)
+set PATH /opt/homebrew/bin $PATH
+
+# Add rustup to path
+set -Ua fish_user_paths $HOME/.cargo/bin
+
 alias do "todoist"
 alias v "mvim -v -w ~/code/dotfiles/vim/keystrokes.log"
 alias dc "docker-compose"
@@ -10,6 +16,10 @@ alias vnc "cd /Users/mvattuone/code/noVNC-1.2.0 && /bin/bash utils/launch.sh --v
 
 # Initialize autojump 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
+
+# Initialize autojump
+[ -f /opt/homebrew/share/autojump/autojump.fish ]; and source /opt/homebrew/share/autojump/autojump.fish
+
 
 # Start Tmux when shell starts
 if status is-interactive

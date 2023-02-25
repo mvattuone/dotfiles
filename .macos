@@ -63,6 +63,9 @@ else
     brew update
 fi
 
+echo "adding brew to PATH"
+export PATH=/opt/homebrew/bin:$PATH
+
 
 # add brew taps
 HOMEBREW_NO_AUTO_UPDATE=1 brew tap homebrew/cask-fonts
@@ -70,44 +73,44 @@ HOMEBREW_NO_AUTO_UPDATE=1 brew tap heroku/brew
 
 echo "installing formulas"
 formulaInstalled autojump
-formulaInstalled git
-formulaInstalled git-cola
-formulaInstalled tmux
-formulaInstalled pyenv
-formulaInstalled ripgrep
-formulaInstalled imagemagick
+formulaInstalled diff-so-fancy
 formulaInstalled ffmpeg
-formulaInstalled heroku
 formulaInstalled fish
-formulaInstalled pyenv
 formulaInstalled fzf
 formulaInstalled gcc
 formulaInstalled gdb
-formulaInstalled sdl2
-formulaInstalled sdl2_image
-formulaInstalled sdl2_ttf
-formulaInstalled universal-ctags
-formulaInstalled diff-so-fancy
+formulaInstalled gh
+formulaInstalled git
+formulaInstalled git-cola
+formulaInstalled heroku
 formulaInstalled htop
+formulaInstalled imagemagick
 formulaInstalled jq
 formulaInstalled neovim
 formulaInstalled pgcli
+formulaInstalled pyenv
+formulaInstalled ripgrep
+formulaInstalled sdl2
+formulaInstalled sdl2_image
+formulaInstalled sdl2_ttf
+formulaInstalled tmux
+formulaInstalled universal-ctags
 
 echo "installing fish shell"
-formulaInstalled fish
+FISH_PATH=$(which fish)
 
-if grep -q usr/local/bin/fish /etc/shells; then 
+if grep -q ${FISH_PATH} /etc/shells; then 
   echo "fish already in /etc/shells, skipping"
 else 
-  echo "adding /usr/local/bin/fish to /etc/shells"
-  echo /usr/local/bin/fish | sudo tee -a /etc/shells
+  echo "adding ${FISH_PATH} to /etc/shells"
+  echo "${FISH_PATH}" | sudo tee -a /etc/shells
 fi
 
-if [ $SHELL = /usr/local/bin/fish ]; then 
+if [ $SHELL = "${FISH_SHELL}" ]; then 
   echo "default shell is already set to fish, skipping step"
 else  
   echo "setting default shell as fish"
-  chsh -s /usr/local/bin/fish
+  chsh -s ${FISH_SHELL}
 fi
 
 echo "setting up ssh"
@@ -170,8 +173,15 @@ if commandExists omf; then
   echo "oh-my-fish is already installed"
 else
   echo "installing oh-my-fish"
-  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
-  fish install --path=~/.local/share/omf --config=~/.config/omf
+  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install --offline --noninteractive --path=~/.local/share/omf --config=~/.config/omf
+  # fish install --path=~/.local/share/omf --config=~/.config/omf
+
+
+
+  bin/install --offline --noninteractive
+
+
+
 fi
 
 echo "some vim setup"
@@ -233,21 +243,22 @@ typescript typescript-language-server \
 prettier
 
 echo "installing apps via Brewfile"
-caskInstalled alfred 
-caskInstalled iterm2 
-caskInstalled google-chrome 
-caskInstalled firefox 
-caskInstalled itsycal 
 caskInstalled 1password 
+caskInstalled adobe-creative-cloud
+caskInstalled alfred 
+caskInstalled docker
+caskInstalled dropbox 
+caskInstalled firefox 
+caskInstalled font-fira-code-nerd-font 
+caskInstalled google-chrome 
+caskInstalled iterm2 
+caskInstalled itsycal 
+caskInstalled sizeup
+caskInstalled slack 
+caskInstalled spotify 
+caskInstalled visual-studio-codejk
 caskInstalled vlc 
 caskInstalled zoom
-caskInstalled spotify 
-caskInstalled dropbox 
-caskInstalled slack 
-caskInstalled font-fira-code-nerd-font 
-caskInstalled docker
-caskInstalled bettertouchtool
-caskInstalled heroku
 
 echo "handling terminal color stuff"
 tic -x ~/Code/dotfiles/terminfo/tmux-256color.terminfo
