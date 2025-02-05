@@ -92,4 +92,5 @@ lua <<EOF
       additional_vim_regex_highlighting = false,
     },
   require('neoscroll').setup()
+  }
 EOF
