@@ -25,3 +25,9 @@
   spellcheck = false
 [pull]
   rebase = preserve
+[push]
+	default = current
+[merge]
+  tool = nvimdiff2
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"

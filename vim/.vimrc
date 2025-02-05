@@ -1,5 +1,4 @@
 set nocompatible
-" Function that calls Selenium test runner for idealist app
 set pyxversion=3
 syntax on
 
@@ -30,28 +29,33 @@ Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
 
-Plug 'pangloss/vim-javascript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'maxmellon/vim-jsx-pretty'
 Plug 'sickill/vim-pasta'
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'tpope/vim-fugitive'
+Plug 'kdheepak/lazygit.nvim'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'wellle/targets.vim'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'qpkorr/vim-bufkill'
-Plug 'puremourning/vimspector'
 Plug 'junegunn/goyo.vim'
 Plug 'stevearc/vim-arduino'
 
 if has('nvim')
   " LSP Support
   Plug 'neovim/nvim-lspconfig'
-  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'nvimdev/guard-collection'
+  Plug 'nvimdev/guard.nvim'
   Plug 'williamboman/mason.nvim'
   Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'dmmulroy/tsc.nvim'
+
+  " Treesitter
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  Plug 'RRethy/nvim-treesitter-textsubjects'
 
   " Diagnostics
   Plug 'kyazdani42/nvim-web-devicons'
@@ -73,6 +77,8 @@ if has('nvim')
   " Misc
   Plug 'nvim-lua/plenary.nvim'
   Plug 'karb94/neoscroll.nvim'
+  Plug 'ThePrimeagen/harpoon'
+  Plug 'stevearc/oil.nvim'
 
   Plug 'VonHeikemen/lsp-zero.nvim'
 else
@@ -88,18 +94,19 @@ endif
 
 call plug#end()
 
+" QoL improvements to cursor 
+
+set guicursor=i:ver25,v:ver25,n:ver25
+set cursorline
+
 filetype plugin indent on
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
-" Resolves issues with powerline + flickering
-" https://github.com/powerline/powerline/issues/1281
-set showtabline=2
-
 inoremap <silent><expr> <c-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
 snoremap <silent><expr> <c-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
+" snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
+" snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
 
@@ -159,13 +166,14 @@ else
 endif
 
 nmap <Leader>; :Buffers<CR>
+nmap <Leader>\ :BDE<CR>
 nmap <C-p> :Files<CR>
 nmap <Leader>r :Tags<CR>
 nmap <Leader>/ :Rg 
 
 " Easier navigation of buffers
-:nnoremap <Tab> :bn<CR>
-:nnoremap <S-Tab> :bp<CR>
+:nnoremap , :bnext<CR>
+:nnoremap ; :bprevious<CR>
 " Use with a number to go to buffer.
 " Or on it's own to toggle previous buffer
 :nnoremap <Leader>b <C-^>
@@ -232,6 +240,19 @@ set rtp+=/usr/local/opt/fzf
 syntax enable
 
 if !has('nvim')
+  " various bits of Powerline related config
+  set rtp+=$HOME/Library/Python/3.9/lib/python/site-packages/powerline/bindings/vim/
+  set laststatus=2
+  set guifont=Fira\ Code:h12
+  let g:Powerline_symbols = 'fancy'
+  set encoding=utf-8
+  set fillchars+=stl:\ ,stlnc:\
+  set termencoding=utf-8
+
+  " Resolves issues with powerline + flickering
+  " https://github.com/powerline/powerline/issues/1281
+  set showtabline=2
+
   let g:asyncomplete_auto_popup = 1
   let g:lsp_diagnostics_enabled = 0   
   imap <C-l> <Plug>(asyncomplete_force_refresh)
@@ -296,16 +317,7 @@ if !has('nvim')
   augroup END
 endif
 
-function! ToggleGstatus() abort
-for l:winnr in range(1, winnr('$'))
-  if !empty(getwinvar(l:winnr, 'fugitive_status'))
-    exe l:winnr 'close'
-    return
-  endif
-endfor
-keepalt Git
-endfunction
-nnoremap <Leader>g :call ToggleGstatus()<CR>
+nnoremap <silent> <leader>gg :LazyGit<CR>
 
 nnoremap gj :lua vim.diagnostic.goto_next()<cr>
 nnoremap gk :lua vim.diagnostic.goto_prev()<cr>
@@ -317,21 +329,14 @@ nnoremap <silent> gn <cmd>lua vim.lsp.buf.rename()<CR>
 
 imap <C-s> <Plug>(fzf-complete-wordnet)
 
+" Copy path of current buffer
+:nmap cp :let @+ = expand("%")<CR>
+
 " Make a timestamp
 nmap <Leader>ts i<C-R>=strftime("%-I:%M %p")<CR><Esc>
 imap <Leader>ts <C-R>=strftime("%-I:%M %p")<CR>
 
 " Simple re-format for minified Javascript
-command! UnMinify call UnMinify()
-function! UnMinify()
-    %s/{\ze[^\r\n]/{\r/g
-    %s/){/) {/g
-    %s/};\?\ze[^\r\n]/\0\r/g
-    %s/;\ze[^\r\n]/;\r/g
-    %s/[^\s]\zs[=&|]\+\ze[^\s]/ \0 /g
-    normal ggVG=
-endfunction
-
 " Enable experimental transmutation support
 " from vim-match (should rename both tags)
 let g:matchup_transmute_enabled = 1
@@ -342,22 +347,12 @@ nmap <silent> <leader>dc :DockerToolsToggle<cr>
 " Add ability to toggle docker stats (why can't this be part of docker ps...)
 nmap <silent> <leader>ds :silent !tmux split-window -d -p 10 -v -f docker stats --format "table {{.Container}}\t{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}" idealist7_webpack_1 idealist7_worker_1<cr>
 
-" various bits of Powerline related config
-set rtp+=$HOME/Library/Python/3.7/lib/python/site-packages/powerline/bindings/vim/
-set laststatus=2
-set guifont=Fira\ Code:h12
-let g:Powerline_symbols = 'fancy'
-set encoding=utf-8
-set fillchars+=stl:\ ,stlnc:\
-set termencoding=utf-8
 
-" Attempt to import a file programmatically using `universal-ctags`. YMMV
-nmap <leader>i :JsFileImport<cr>
-
-" Include jsx in Javascript filetype
+" Include jsx/tsx in Javascript/Typescript filetype
 augroup FiletypeGroup
     autocmd!
     au BufNewFile,BufRead *.js set filetype=javascript.jsx
+    au BufNewFile,BufRead *.ts set filetype=typescriptreact
     au BufNewFile,BufRead ~/Dropbox/vimwiki/markdown set filetype=vimwiki
 augroup END
 
@@ -435,57 +430,56 @@ function! RunTest()
 
   if len(test_function) <= 0
     echo 'Running test suite' . filepath . '::' . test_class
-    execute 'silent !tmux -2 split-window -d ! -v -f docker-compose -f docker-compose.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r' 
+    execute 'silent !tmux -2 split-window -d ! -v -f docker compose -f docker-compose.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r' 
   else
     echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
-    execute 'silent !tmux split-window -d -p 20 -v docker-compose -f docker-compose.yml  run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
+    execute 'silent !tmux split-window -d -v docker compose -f docker-compose.yml  run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
   endif
 
   call winrestview(b:view)
 endfunction
-
-let g:vim_jsx_pretty_colorful_config = 1 
 
 command! RunTest call RunTest()
 
 " Run Test
 nmap <Leader>r :RunTest<CR> 
 
+
+
 " Make a timestamp
 nmap <Leader>t <C-R>=strftime("%-I:%M %p")<CR>
 
-" Shamelessly lifted from https://github.com/samuelsimoes/vim-jsx-utils/blob/master/plugin/vim-jsx-utils.vim
-function! JSXIsSelfCloseTag()
-  let l:line_number = line(".")
-  let l:line = getline(".")
-  let l:tag_name = matchstr(matchstr(line, "<\\w\\+"), "\\w\\+")
-
-  exec "normal! 0f<vat\<esc>"
-
-  cal cursor(line_number, 1)
-
-  let l:selected_text = join(getline(getpos("'<")[1], getpos("'>")[1]))
-
-  let l:match_tag = matchstr(matchstr(selected_text, "</\\w\\+>*$"), "\\w\\+")
-
-  return tag_name != match_tag
-endfunction
-
-function! JSXSelectTag()
-  if JSXIsSelfCloseTag()
-    exec "normal! \<esc>0f<v/\\/>$\<cr>l"
-  else
-    exec "normal! \<esc>0f<vat"
-  end
-endfunction
-
-nnoremap vat :call JSXSelectTag()<CR>
+" Harpoon
+nnoremap <leader>a :lua require('harpoon.mark').add_file()<CR>
+nnoremap <Leader>e :lua require('harpoon.ui').toggle_quick_menu()<CR>
+nnoremap <Leader>1 :lua require('harpoon.ui').nav_file(1)<CR>
+nnoremap <Leader>2 :lua require('harpoon.ui').nav_file(2)<CR>
+nnoremap <Leader>3 :lua require('harpoon.ui').nav_file(3)<CR>
+nnoremap <Leader>4 :lua require('harpoon.ui').nav_file(4)<CR>
+nnoremap <Leader>5 :lua require('harpoon.ui').nav_file(5)<CR>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
 highlight Folded cterm=italic term=italic
 highlight Comment cterm=italic term=italic
+
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BDE call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
  
 " Put these lines at the very end of your vimrc file.
 

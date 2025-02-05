@@ -4,52 +4,92 @@ source ~/.vimrc
 
 lua <<EOF
   local lsp = require('lsp-zero')
-  local null_ls = require('null-ls')
+  local guard = require('guard')
+  local ft = require('guard.filetype')
+  local ts = require('nvim-treesitter.configs')
+
+  require("oil").setup({
+  keymaps = {
+    ["<C-p>"] = false,
+    ["<Leader>o"] = "actions.preview",
+  },
+  })
+  require('tsc').setup()
+
+  vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
   lsp.preset('recommended')
 
   lsp.ensure_installed({
     'html',
     'cssls',
-    'tsserver',
+    'ts_ls',
     'eslint',
     'pyright',
     'rust_analyzer',
   })
 
-  lsp.nvim_workspace()
-
-  local null_opts = lsp.build_options('null-ls', {
+  require('lspconfig').ts_ls.setup({
     on_attach = function(client, bufnr)
-      if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                vim.lsp.buf.format({ bufnr = bufnr })
-            end,
-        })
-      end
-    end
+    end,
+    settings = {
+      defaultMaximumTruncationLength = 800
+    },
   })
 
 
+  lsp.nvim_workspace()
   lsp.setup()
 
-  null_ls.setup({
-    on_attach = null_opts.on_attach,
-    sources = {
-      null_ls.builtins.formatting.rustfmt,
-      null_ls.builtins.formatting.prettierd,
-      null_ls.builtins.diagnostics.eslint_d,
-    }
-  })
+  -- multiple files register
+  ft('typescript,javascript,typescriptreact'):fmt('prettier')
+  ft('python'):fmt('black'):append('isort')
+
+  vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
   vim.diagnostic.config({
     virtual_text = true
   })
 
+  ts.setup {
+    -- A list of parser names, or "all" (the listed parsers MUST always be installed)
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "javascript", "typescript", "json", "python" },
+
+    -- Install parsers synchronously (only applied to `ensure_installed`)
+    sync_install = false,
+
+    -- Automatically install missing parsers when entering buffer
+    -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+    auto_install = true,
+
+    -- List of parsers to ignore installing (or "all")
+    ignore_install = {},
+
+    ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
+    -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
+
+    highlight = {
+      enable = true,
+
+      -- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
+      -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
+      -- the name of the parser)
+      -- list of language that will be disabled
+      disable = {},
+      -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+      disable = function(lang, buf)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+              return true
+          end
+      end,
+
+      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+      -- Using this option may slow down your editor, and you may see some duplicate highlights.
+      -- Instead of true it can also be a list of languages
+      additional_vim_regex_highlighting = false,
+    },
   require('neoscroll').setup()
 EOF

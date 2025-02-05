@@ -8,3 +8,6 @@
 .config/fish/functions/get_pivotal_stories.fish
 tags
 docker-compose.override.yml
+tags.lock
+tags.temp
+tags.temp.tmp

@@ -5,11 +5,11 @@ set PATH /opt/homebrew/bin $PATH
 set -Ua fish_user_paths $HOME/.cargo/bin
 
 alias do "todoist"
-alias v "mvim -v -w ~/code/dotfiles/vim/keystrokes.log"
-alias dc "docker-compose"
-alias dcs "docker-compose" 
-alias t "docker-compose -f docker-compose.yml run tester python runtests.py --no-screenshot" 
+alias dc "docker compose"
+alias dcs "docker compose" 
+alias t "docker compose -f docker-compose.yml run --rm tester python runtests.py --no-screenshot" 
 alias current_version "yarn list --pattern"
+alias server='python3 ~/Code/server.py'
 
 # Start vnc server
 alias vnc "cd /Users/mvattuone/code/noVNC-1.2.0 && /bin/bash utils/launch.sh --vnc localhost:5901"
@@ -23,8 +23,8 @@ alias vnc "cd /Users/mvattuone/code/noVNC-1.2.0 && /bin/bash utils/launch.sh --v
 
 # Start Tmux when shell starts
 if status is-interactive
-and not set -q TMUX
-    exec tmux -2
+  and not set -q TMUX
+      exec tmux -2
 end
 
 # Initialize pyenv
@@ -55,7 +55,7 @@ set -U fish_prompt_pwd_dir_length 0
 contains $PATH $HOME/gitScripts; or set PATH $HOME/gitScripts $PATH
 
 # Add Python to Path
-contains $PATH $HOME/Library/Python/3.7/bin; or set PATH $HOME/Library/Python/3.7/bin $PATH
+contains $PATH $HOME/Library/Python/3.9/bin; or set PATH $HOME/Library/Python/3.9/bin $PATH
 rvm default
 
 setenv SSH_ENV $HOME/.ssh/environment

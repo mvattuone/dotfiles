@@ -1,4 +1,4 @@
-nnoremap <localleader>g :Goyo<CR>
+nnoremap <leader>g :Goyo<CR>
 
 function! s:goyo_enter()
   let b:quitting = 0

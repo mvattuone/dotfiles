@@ -173,15 +173,8 @@ if commandExists omf; then
   echo "oh-my-fish is already installed"
 else
   echo "installing oh-my-fish"
-  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install --offline --noninteractive --path=~/.local/share/omf --config=~/.config/omf
-  # fish install --path=~/.local/share/omf --config=~/.config/omf
-
-
-
-  bin/install --offline --noninteractive
-
-
-
+  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
+  fish install --path=~/.local/share/omf --config=~/.config/omffi
 fi
 
 echo "some vim setup"
@@ -259,6 +252,7 @@ caskInstalled spotify
 caskInstalled visual-studio-codejk
 caskInstalled vlc 
 caskInstalled zoom
+caskInstalled figma
 
 echo "handling terminal color stuff"
 tic -x ~/Code/dotfiles/terminfo/tmux-256color.terminfo
