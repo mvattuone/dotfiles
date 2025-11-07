@@ -77,7 +77,6 @@ if has('nvim')
   " Misc
   Plug 'nvim-lua/plenary.nvim'
   Plug 'karb94/neoscroll.nvim'
-  Plug 'ThePrimeagen/harpoon'
   Plug 'stevearc/oil.nvim'
 
   Plug 'VonHeikemen/lsp-zero.nvim'
@@ -448,15 +447,6 @@ nmap <Leader>r :RunTest<CR>
 
 " Make a timestamp
 nmap <Leader>t <C-R>=strftime("%-I:%M %p")<CR>
-
-" Harpoon
-nnoremap <leader>a :lua require('harpoon.mark').add_file()<CR>
-nnoremap <Leader>e :lua require('harpoon.ui').toggle_quick_menu()<CR>
-nnoremap <Leader>1 :lua require('harpoon.ui').nav_file(1)<CR>
-nnoremap <Leader>2 :lua require('harpoon.ui').nav_file(2)<CR>
-nnoremap <Leader>3 :lua require('harpoon.ui').nav_file(3)<CR>
-nnoremap <Leader>4 :lua require('harpoon.ui').nav_file(4)<CR>
-nnoremap <Leader>5 :lua require('harpoon.ui').nav_file(5)<CR>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
