@@ -366,6 +366,12 @@ nmap <C-z> <nop>
 imap jk <esc>
 vmap jk <esc>
 
+" Open vimrc quickly
+nmap <Leader>e :e ~/.vimrc<CR>
+
+" Open init.vim quickly
+nmap <Leader>i :e ~/.config/nvim/init.vim<CR>
+
 set wildmenu
 set wildmode=longest,list
 " Ignore node_modules
