@@ -75,6 +75,7 @@ if has('nvim')
   Plug 'rafamadriz/friendly-snippets'
 
   " Misc
+  Plug 'mrjones2014/smart-splits.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'karb94/neoscroll.nvim'
   Plug 'stevearc/oil.nvim'
