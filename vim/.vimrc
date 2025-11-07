@@ -433,10 +433,11 @@ function! RunTest()
 
   if len(test_function) <= 0
     echo 'Running test suite' . filepath . '::' . test_class
-    execute 'silent !tmux -2 split-window -d ! -v -f docker compose -f docker-compose.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r' 
+    call system('wezterm cli split-pane --bottom -- docker compose -f docker-compose.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r') 
   else
     echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
-    execute 'silent !tmux split-window -d -v docker compose -f docker-compose.yml  run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb'
+
+    call system('wezterm cli split-pane --bottom -- docker compose -f docker-compose.yml  run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb')
   endif
 
   call winrestview(b:view)

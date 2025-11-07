@@ -22,8 +22,10 @@ alias vnc "cd /Users/mvattuone/code/noVNC-1.2.0 && /bin/bash utils/launch.sh --v
 
 
 # Start Tmux when shell starts
+# @NOTE (2/19/2025) - Trying out Wezterm, lets see if we still need this...
 if status is-interactive
   and not set -q TMUX
+  and test $TERM_PROGRAM = iTerm.app
       exec tmux -2
 end
 
