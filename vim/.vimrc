@@ -102,10 +102,6 @@ filetype plugin indent on
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
-inoremap <silent><expr> <c-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-snoremap <silent><expr> <c-k> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<Tab>'
-" snoremap <silent> <Tab> <cmd>lua require('luasnip').jump(1)<Cr>
-" snoremap <silent> <S-Tab> <cmd>lua require('luasnip').jump(-1)<Cr>
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
 
