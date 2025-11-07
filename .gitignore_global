@@ -11,3 +11,8 @@ docker-compose.override.yml
 tags.lock
 tags.temp
 tags.temp.tmp
+quickfix*
+.DS_Store
+CLAUDE.md
+AGENT.md
+node_modules
