@@ -136,7 +136,9 @@ end
   vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
   vim.diagnostic.config({
-    virtual_text = true
+    virtual_text = true,
+    update_in_insert = false,
+    severity_sort = true,
   })
 
   ts.setup {
