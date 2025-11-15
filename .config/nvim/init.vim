@@ -103,27 +103,7 @@ end
     },
   })
 
-  local iron = require("iron.core")
 
-  iron.setup {
-    config = {
-      repl_definition = {
-        typescript = { command = { "npx", "tsx" } },
-        javascript = { command = { "npx", "tsx" } },
-        ["javascript.jsx"] = { command = { "npx", "tsx" } },
-      },
-      repl_open_cmd = require("iron.view").bottom(20),
-    },
-    keymaps = {
-      toggle_repl = "<space>rr",
-      send_motion = "<leader>sc",
-      visual_send = "<leader>sv",
-      send_file = "<leader>sf",
-      send_line = "<leader>sl",
-      exit = "<leader>sq",
-      clear = "<leader>sx",
-    },
-  }
 
 
   lsp.nvim_workspace()
