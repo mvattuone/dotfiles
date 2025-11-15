@@ -164,8 +164,8 @@ endif
 nmap <Leader>; :Buffers<CR>
 nmap <Leader>\ :BDE<CR>
 nmap <C-p> :Files<CR>
-nmap <Leader>r :Tags<CR>
 nmap <Leader>/ :Rg 
+nmap <Leader>t :Tags<CR>
 
 " Easier navigation of buffers
 :nnoremap , :bnext<CR>
