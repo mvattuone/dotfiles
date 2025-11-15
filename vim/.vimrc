@@ -409,9 +409,6 @@ let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 " Run make silently
 nnoremap <leader>m :silent make\|redraw!<cr>
 
-" Make a timestamp
-nmap <Leader>t <C-R>=strftime("%-I:%M %p")<CR>
-
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
