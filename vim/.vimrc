@@ -407,48 +407,6 @@ let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
 " Run make silently
 nnoremap <leader>m :silent make\|redraw!<cr>
 
-" Function that calls Selenium test runner for idealist app
-"
-" Either test whole class or function
-function! RunTest() 
-  let b:view = winsaveview()
-  let filepath = @%
-  let lineindent = indent('.')
-  let n = line('.')
-  let test_function = ''
-  let test_class = split(split(getline(search('class [A-Z]')))[1], '(')[0]
-
-  if lineindent > 4
-    while (indent(prevnonblank(n)) > 0)
-      if indent(prevnonblank(n)) <= 4
-        " Search for either ( or (self): since Python formatting may break the
-        " line
-        let test_function = substitute(split(getline(prevnonblank(n)))[1], '\v\((self\):)?', '', '')
-        break
-      endif
-      let n = n - 1
-    endwhile
-  endif
-
-  if len(test_function) <= 0
-    echo 'Running test suite' . filepath . '::' . test_class
-    call system('wezterm cli split-pane --bottom -- docker compose -f docker-compose.yml run tester python runtests.py ' . filepath . '::' . test_class . '-r') 
-  else
-    echo 'Running test ' . filepath . '::' . test_class . '::' . test_function
-
-    call system('wezterm cli split-pane --bottom -- docker compose -f docker-compose.yml  run tester python runtests.py ' . filepath . '::' . test_class . '::' . test_function . ' --pdb')
-  endif
-
-  call winrestview(b:view)
-endfunction
-
-command! RunTest call RunTest()
-
-" Run Test
-nmap <Leader>r :RunTest<CR> 
-
-
-
 " Make a timestamp
 nmap <Leader>t <C-R>=strftime("%-I:%M %p")<CR>
 
