@@ -167,6 +167,9 @@ nmap <C-p> :Files<CR>
 nmap <Leader>/ :Rg 
 nmap <Leader>t :Tags<CR>
 
+" Search visually selected text
+xnoremap <leader>/ y:Rg <C-r>"<CR>
+
 " Easier navigation of buffers
 :nnoremap , :bnext<CR>
 :nnoremap ; :bprevious<CR>
