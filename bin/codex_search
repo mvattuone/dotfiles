@@ -1,0 +1,194 @@
+#!/usr/bin/env fish
+
+set -e fish_greeting
+set -gx FISH_NO_UVARS 1
+
+function __codex_usage
+    echo "Usage: codex_search [--case-sensitive|-s] <search text>" >&2
+end
+
+if not type -q rg
+    echo "codex_search requires ripgrep (rg) to be installed." >&2
+    exit 1
+end
+
+if not type -q codex
+    echo "codex_search requires the codex CLI to be in PATH." >&2
+    exit 1
+end
+
+set case_sensitive 0
+set args $argv
+
+function __codex_shift_args
+    if test (count $args) -ge 2
+        set -g args $args[2..-1]
+    else
+        set -g args
+    end
+end
+
+while test (count $args) -gt 0
+    set arg $args[1]
+    switch $arg
+        case '--case-sensitive' '-s'
+            set case_sensitive 1
+            __codex_shift_args
+            continue
+        case '--help' '-h'
+            __codex_usage
+            exit 0
+        case '--'
+            __codex_shift_args
+            break
+        case '-*'
+            echo "codex_search: unknown option $arg" >&2
+            __codex_usage
+            exit 1
+        case '*'
+            break
+    end
+end
+
+if test (count $args) -eq 0
+    __codex_usage
+    exit 1
+end
+
+set needle (string join ' ' $args)
+set session_dir ~/.codex/sessions
+set search_flags --fixed-strings --word-regexp --glob 'rollout-*.jsonl'
+
+if test $case_sensitive -eq 0
+    set search_flags $search_flags --ignore-case
+end
+
+if not test -d $session_dir
+    echo "codex_search could not find any sessions at $session_dir" >&2
+    exit 1
+end
+
+set matches (rg -l $search_flags -- $needle $session_dir 2>/dev/null)
+
+if test (count $matches) -eq 0
+    echo "No sessions contain \"$needle\"." >&2
+    exit 1
+end
+
+function __codex_session_id
+    set -l file $argv[1]
+    set -l id (string replace -r '.*-([0-9a-f-]{36})\.jsonl$' '$1' -- $file)
+    if test -z "$id"
+        return 1
+    end
+    echo $id
+end
+
+function __codex_open_session --argument-names file
+    set -l session_id (__codex_session_id $file)
+    if test -z "$session_id"
+        echo "codex_search could not parse a session id from $file" >&2
+        exit 1
+    end
+    echo "Opening session $session_id"
+    exec codex resume $session_id
+end
+
+set match_count (count $matches)
+if test $match_count -eq 1
+    __codex_open_session $matches[1]
+end
+
+set session_files
+set session_ids
+set session_snippets
+
+for file in $matches
+    set -l session_id (__codex_session_id $file)
+    if test -z "$session_id"
+        echo "codex_search could not parse a session id from $file" >&2
+        exit 1
+    end
+
+    set -l snippet (env CODEX_SEARCH_FILE="$file" CODEX_SEARCH_NEEDLE="$needle" CODEX_SEARCH_CASE="$case_sensitive" python3 -c "
+import json, os, re, sys
+
+path = os.environ.get('CODEX_SEARCH_FILE')
+needle = os.environ.get('CODEX_SEARCH_NEEDLE', '')
+case_sensitive = os.environ.get('CODEX_SEARCH_CASE', '0') == '1'
+
+if not path or not needle:
+    sys.exit(0)
+
+flags = 0 if case_sensitive else re.IGNORECASE
+pattern = re.compile(r'(?<!\w)' + re.escape(needle) + r'(?!\w)', flags)
+
+def clean_text(text):
+    collapsed = ' '.join(text.split())
+    if len(collapsed) > 70:
+        return collapsed[:70] + '...'
+    return collapsed
+
+def find_in_value(value):
+    if isinstance(value, str):
+        if pattern.search(value):
+            return clean_text(value)
+    elif isinstance(value, list):
+        for item in value:
+            found = find_in_value(item)
+            if found:
+                return found
+    elif isinstance(value, dict):
+        for v in value.values():
+            found = find_in_value(v)
+            if found:
+                return found
+    return None
+
+try:
+    with open(path, 'r', encoding='utf-8') as fh:
+        for line in fh:
+            line = line.strip()
+            if not line or line[0] != '{':
+                continue
+            try:
+                payload = json.loads(line)
+            except Exception:
+                continue
+            snippet = find_in_value(payload)
+            if snippet:
+                sys.stdout.write(snippet)
+                break
+except Exception:
+    pass
+")
+
+    if test -z "$snippet"
+        set snippet "(no preview)"
+    end
+
+    set -a session_files $file
+    set -a session_ids $session_id
+    set -a session_snippets $snippet
+end
+
+echo
+printf "%-5s | %-70s | %s\n" "No." "Snippet" "Session ID"
+printf "%s\n" "-----+----------------------------------------------------------------------+--------------------------------------"
+
+for idx in (seq $match_count)
+    printf "%-5s | %-70s | %s\n" $idx $session_snippets[$idx] $session_ids[$idx]
+end
+
+while true
+    read -l -P "Select session (1-$match_count or q to quit): " selection
+    if test "$selection" = "q"
+        exit 0
+    end
+    if string match -qr '^[0-9]+$' -- $selection
+        if test $selection -ge 1 -a $selection -le $match_count
+            __codex_open_session $session_files[$selection]
+        end
+    end
+    echo "Invalid selection." >&2
+end
