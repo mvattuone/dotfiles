@@ -4,6 +4,9 @@ set PATH /opt/homebrew/bin $PATH
 # Add rustup to path
 set -Ua fish_user_paths $HOME/.cargo/bin
 
+# add custom scripts to path
+set -U fish_user_paths ~/bin $fish_user_paths
+
 alias do "todoist"
 alias dc "docker compose"
 alias dcs "docker compose" 
