@@ -55,11 +55,32 @@ local function bind_super_key_to_vim(key)
   }
 end
 
+local function bind_ctrl_resize_key(key)
+  return {
+    key = key,
+    mods = 'CTRL',
+    action = wezterm.action_callback(function(win, pane)
+      local vars = pane:get_user_vars()
+      local is_nvim = vars.IS_NVIM == 'true'
+
+      if is_nvim then
+        win:perform_action({ SendKey = { key = key, mods = 'CTRL' } }, pane)
+      else
+        win:perform_action(wezterm.action.AdjustPaneSize { vim_keys_direction_map[key], 3 }, pane)
+      end
+    end),
+  }
+end
+
 config.keys = {
   bind_super_key_to_vim('h'),
   bind_super_key_to_vim('j'),
   bind_super_key_to_vim('k'),
   bind_super_key_to_vim('l'),
+  bind_ctrl_resize_key('h'),
+  bind_ctrl_resize_key('j'),
+  bind_ctrl_resize_key('k'),
+  bind_ctrl_resize_key('l'),
   {
     key = 'd',
     mods = 'SUPER',
