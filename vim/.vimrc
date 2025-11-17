@@ -41,53 +41,43 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'junegunn/goyo.vim'
 Plug 'stevearc/vim-arduino'
 
-if has('nvim')
-  " LSP Support
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'nvimdev/guard-collection'
-  Plug 'nvimdev/guard.nvim'
-  Plug 'williamboman/mason.nvim'
-  Plug 'williamboman/mason-lspconfig.nvim'
-  Plug 'dmmulroy/tsc.nvim'
+" LSP Support
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvimdev/guard-collection'
+Plug 'nvimdev/guard.nvim'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'dmmulroy/tsc.nvim'
 
-  " Treesitter
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'RRethy/nvim-treesitter-textsubjects'
+" Treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'RRethy/nvim-treesitter-textsubjects'
 
-  " Diagnostics
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'folke/trouble.nvim'
+" Diagnostics
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/trouble.nvim'
 
-  " Autocompletion
-  Plug 'hrsh7th/nvim-cmp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'petertriho/cmp-git'
-  Plug 'saadparwaiz1/cmp_luasnip'
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-nvim-lua'
+" Autocompletion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'petertriho/cmp-git'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
 
-  "  Snippets
-  Plug 'L3MON4D3/LuaSnip'
-  Plug 'rafamadriz/friendly-snippets'
+"  Snippets
+Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
 
-  " Misc
-  Plug 'mrjones2014/smart-splits.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'karb94/neoscroll.nvim'
-  Plug 'stevearc/oil.nvim'
+" Misc
+Plug 'mrjones2014/smart-splits.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'karb94/neoscroll.nvim'
+Plug 'stevearc/oil.nvim'
 
-  Plug 'VonHeikemen/lsp-zero.nvim'
-else
-  Plug 'prabirshrestha/async.vim'
-  Plug 'prabirshrestha/asyncomplete.vim'
-  Plug 'prabirshrestha/asyncomplete-file.vim'
-  Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  Plug 'yami-beta/asyncomplete-omni.vim'
-  Plug 'prabirshrestha/vim-lsp'
-  Plug 'mattn/vim-lsp-settings'
-endif
+Plug 'VonHeikemen/lsp-zero.nvim'
 
 call plug#end()
 
@@ -231,64 +221,6 @@ let g:vimwiki_auto_chdir = 1
 set rtp+=/usr/local/opt/fzf
 
 syntax enable
-
-if !has('nvim')
-  " various bits of Powerline related config
-  set rtp+=$HOME/Library/Python/3.9/lib/python/site-packages/powerline/bindings/vim/
-  set laststatus=2
-  set guifont=Fira\ Code:h12
-  let g:Powerline_symbols = 'fancy'
-  set encoding=utf-8
-  set fillchars+=stl:\ ,stlnc:\
-  set termencoding=utf-8
-
-  " Resolves issues with powerline + flickering
-  " https://github.com/powerline/powerline/issues/1281
-  set showtabline=2
-
-  let g:asyncomplete_auto_popup = 1
-  let g:lsp_diagnostics_enabled = 0   
-  imap <C-l> <Plug>(asyncomplete_force_refresh)
-
-
-  " Register asyncomplete-omni
-  call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-  \ 'name': 'omni',
-  \ 'allowlist': ['*'],
-  \ 'priority': 10,
-  \ 'completor': function('asyncomplete#sources#omni#completor')
-  \  }))
-
-  " Register asyncomplete-file
-  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-      \ 'name': 'file',
-      \ 'allowlist': ['*'],
-      \ 'priority': 20,
-      \ 'completor': function('asyncomplete#sources#file#completor')
-      \ }))
-
-  function! s:on_lsp_buffer_enabled() abort
-      setlocal omnifunc=lsp#complete
-      setlocal signcolumn=yes
-      if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-      nmap <buffer> gd <plug>(lsp-definition)
-      nmap <buffer> gr <plug>(lsp-references)
-      nmap <buffer> gi <plug>(lsp-implementation)
-      nmap <buffer> gt <plug>(lsp-type-definition)
-      nmap <buffer> <leader>rn <plug>(lsp-rename)
-      nmap <buffer> [g <Plug>(lsp-previous-diagnostic)
-      nmap <buffer> ]g <Plug>(lsp-next-diagnostic)
-      nmap <buffer> K <plug>(lsp-hover)
-
-      " refer to doc to add more commands
-  endfunction
-
-  augroup lsp_install
-      au!
-      " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-  augroup END
-endif
 
 nnoremap <silent> <leader>gg :LazyGit<CR>
 
