@@ -38,13 +38,8 @@ end
 
 
   require('plugins.smart-splits')
+  require('plugins.oil')
 
-  require("oil").setup({
-  keymaps = {
-    ["<C-p>"] = false,
-    ["<Leader>o"] = "actions.preview",
-  },
-  })
   require('tsc').setup()
 
   vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
@@ -83,8 +78,6 @@ end
   -- multiple files register
   ft('typescript,javascript,typescriptreact'):fmt('prettier')
   ft('python'):fmt('black'):append('isort')
-
-  vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
   vim.diagnostic.config({
     virtual_text = true,
