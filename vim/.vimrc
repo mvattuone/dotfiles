@@ -81,7 +81,6 @@ if has('nvim')
 
   Plug 'VonHeikemen/lsp-zero.nvim'
 else
-  Plug 'w0rp/ale'
   Plug 'prabirshrestha/async.vim'
   Plug 'prabirshrestha/asyncomplete.vim'
   Plug 'prabirshrestha/asyncomplete-file.vim'
@@ -271,26 +270,6 @@ if !has('nvim')
       \ 'priority': 20,
       \ 'completor': function('asyncomplete#sources#file#completor')
       \ }))
-
-  let g:ale_set_highlights = 0
-  let g:ale_lint_on_enter = 0
-  let g:ale_linters_explicit = 1
-
-  let g:ale_fixers = {
-  \'javascript': ['eslint', 'prettier'], 'python': ['black'], 'css': ['prettier']
-  \}
-  let g:ale_linter_aliases = {'jsx': ['css', 'javascript']}
-  let g:ale_linters = { 
-  \'javascript': ['flow-language-server', 'eslint', 'stylelint'], 'python': ['pylint'], 'css': ['stylelint', 'prettier']
-  \}
-  let g:ale_fix_on_save = 1
-
-
-  " Move through linting errors more conveniently
-  nmap <silent> <leader>j :ALENext<cr>
-  nmap <silent> <leader>k :ALEPrevious<cr>
-
-  autocmd BufReadPost * call ale#balloon#Enable()
 
   function! s:on_lsp_buffer_enabled() abort
       setlocal omnifunc=lsp#complete
