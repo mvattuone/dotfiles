@@ -17,7 +17,6 @@ Plug 'vim-scripts/Zenburn'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tomasiser/vim-code-dark'
 Plug 'chaoren/vim-wordmotion'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'Avi-D-coder/fzf-wordnet.vim'
