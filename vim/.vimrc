@@ -23,7 +23,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'Avi-D-coder/fzf-wordnet.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kevinhui/vim-docker-tools'
-Plug 'konfekt/fastfold'
 Plug 'ayu-theme/ayu-vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
@@ -379,44 +378,17 @@ set wildmode=longest,list
 " Ignore node_modules
 set wildignore+=*node_modules/**
 
-" Code folding
-set foldmethod=syntax
-set foldcolumn=1
-set foldlevelstart=0
-
-" hi Folded guibg=#95467c
-" hi Folded guifg=#cfcfcf
-
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
-
-nmap zuz <Plug>(FastFoldUpdate)
-let g:fastfold_savehook = 1
-let g:fastfold_fold_command_suffixes =  ['x','X','a','A','o','O','c','C']
-let g:fastfold_fold_movement_commands = [']z', '[z', 'zj', 'zk']
+" cold folding
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+set foldlevel=99
+set foldenable
 
 " Run make silently
 nnoremap <leader>m :silent make\|redraw!<cr>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
-
-highlight Folded cterm=italic term=italic
-highlight Comment cterm=italic term=italic
 
 function! s:list_buffers()
   redir => list
