@@ -37,7 +37,6 @@ end
   vim.keymap.set({ 'n', 't' }, '<Char-0xAD>', '<C-\\><C-N><C-w>l', { noremap = true })
 
 
-  require('smart-splits')
   require('plugins.smart-splits')
 
   require("oil").setup({
