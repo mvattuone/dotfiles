@@ -93,13 +93,10 @@ endif
 call plug#end()
 
 " QoL improvements to cursor 
-
 set guicursor=i:ver25,v:ver25,n:ver25
 set cursorline
 
 filetype plugin indent on
-
-let g:vimspector_enable_mappings = 'HUMAN'
 
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
