@@ -38,6 +38,7 @@ end
 
 
   require('smart-splits')
+  require('plugins.smart-splits')
 
   require("oil").setup({
   keymaps = {
