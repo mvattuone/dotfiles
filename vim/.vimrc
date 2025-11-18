@@ -247,14 +247,6 @@ let g:matchup_transmute_enabled = 1
 
 nnoremap <leader>cd :call setreg('+', expand('%:p')) \| echo 'file path copied'<CR>
 
-" Include jsx/tsx in Javascript/Typescript filetype
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.js set filetype=javascript.jsx
-    au BufNewFile,BufRead *.ts set filetype=typescriptreact
-    au BufNewFile,BufRead ~/Dropbox/vimwiki/markdown set filetype=vimwiki
-augroup END
-
 " FU bell
 set vb t_vb=     
 
