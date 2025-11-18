@@ -8,35 +8,7 @@ lua <<EOF
   local ft = require('guard.filetype')
   local ts = require('nvim-treesitter.configs')
 
-
-
-local wezterm = vim.fn.has('nvim') == 1 and vim.fn.executable('wezterm') == 1
-
-if wezterm then
-  local function set_user_var(name, value)
-    vim.fn.chansend(vim.v.stderr, string.format("\x1b]1337;SetUserVar=%s=%s\x07", name, vim.base64.encode(value)))
-  end
-
-  vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
-    callback = function() set_user_var("IS_NVIM", "true") end,
-  })
-
-  vim.api.nvim_create_autocmd("TermEnter", {
-    callback = function() set_user_var("NVIM_MODE", "terminal") end,
-  })
-
-  vim.api.nvim_create_autocmd("TermLeave", {
-    callback = function() set_user_var("NVIM_MODE", "normal") end,
-  })
-end
-
-  -- Decode custom chars from wezterm (see your utf8 chars)
-  vim.keymap.set({ 'n', 't' }, '<Char-0xAA>', '<C-\\><C-N><C-w>h', { noremap = true })
-  vim.keymap.set({ 'n', 't' }, '<Char-0xAB>', '<C-\\><C-N><C-w>j', { noremap = true })
-  vim.keymap.set({ 'n', 't' }, '<Char-0xAC>', '<C-\\><C-N><C-w>k', { noremap = true })
-  vim.keymap.set({ 'n', 't' }, '<Char-0xAD>', '<C-\\><C-N><C-w>l', { noremap = true })
-
-
+  require('wezterm')
   require('plugins.smart-splits')
   require('plugins.oil')
   require('wiki')
