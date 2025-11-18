@@ -96,6 +96,11 @@ config.keys = {
     mods = 'CTRL',
     action = wezterm.action.TogglePaneZoomState
   },
+  {
+    key = "Enter",
+    mods = "SHIFT",
+    action = wezterm.action.SendString "\x0a",
+  },
 }
 
 -- and finally, return the configuration to wezterm
