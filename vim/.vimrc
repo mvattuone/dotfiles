@@ -197,23 +197,6 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " Close buffer (won't close split)
 nnoremap <Leader>d :BD<CR>
 
-" Settings for Vimwiki
-let wiki_1 = {}
-let wiki_1.path = '~/Dropbox/vimwiki/markdown/'
-let wiki_1.ext = '.md'
-let wiki_1.syntax = 'markdown'
-
-let wiki_2 = {}
-let wiki_2.path = '~/Dropbox/vimwiki/vattuonet'
-let wiki_2.ext = '.md'
-let wiki_2.index = '_index'
-let wiki_2.syntax = 'markdown'
-let wiki_2.custom_wiki2html='~/code/dotfiles/wiki2html.sh'
-let wiki_2.path_html='~/code/vattuonet/public'
-let wiki_2.path='~/Dropbox/vimwiki/vattuonet'
-
-let g:vimwiki_list = [wiki_1, wiki_2]
-let g:vimwiki_auto_chdir = 1
 
 
 " If installed using Homebrew

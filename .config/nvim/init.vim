@@ -39,6 +39,7 @@ end
 
   require('plugins.smart-splits')
   require('plugins.oil')
+  require('wiki')
 
   require('tsc').setup()
 
