@@ -31,3 +31,5 @@
   tool = nvimdiff2
 [mergetool "nvimdiff"]
   layout = "LOCAL,BASE,REMOTE / MERGED"
+[init]
+	defaultBranch = main
