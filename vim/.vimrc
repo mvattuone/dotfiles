@@ -17,7 +17,7 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'tomasiser/vim-code-dark'
 Plug 'chaoren/vim-wordmotion'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'ibhagwan/fzf-lua'
 Plug 'Avi-D-coder/fzf-wordnet.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
@@ -142,15 +142,6 @@ else
   colorscheme codedark
 endif
 
-nmap <Leader>; :Buffers<CR>
-nmap <Leader>\ :BDE<CR>
-nmap <C-p> :Files<CR>
-nmap <Leader>/ :Rg 
-nmap <Leader>t :Tags<CR>
-
-" Search visually selected text
-xnoremap <leader>/ y:Rg <C-r>"<CR>
-
 " Easier navigation of buffers
 :nnoremap , :bnext<CR>
 :nnoremap ; :bprevious<CR>
@@ -162,43 +153,8 @@ xnoremap <leader>/ y:Rg <C-r>"<CR>
 
 source ~/code/dotfiles/vim/.vimrc-goyo
 
-" Replace default grep 
-"set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-
-" Use ripgrep with fzf
-" for really really fast searching
-if executable('rg')
-  let $FZF_DEFAULT_COMMAND = 'rg --vimgrep --hidden -l -i ""'
-endif
-command! -bang -nargs=* Rg call fzf#vim#grep(<q-args>, {'options': '--delimiter : --nth 4..'},
-
-" Similarly, we can apply it to fzf#vim#grep. To use ripgrep instead of ag:
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --vimgrep --column --line-number --multiline --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'up:60%')
-  \           : fzf#vim#with_preview({'options': '-e --delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
-  \   <bang>0)
-" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column G-multiline --line-number --no-heading --color=always --smart-case ".<q-args>, 1, <bang>0)
-"
-function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
-
-
 " Close buffer (won't close split)
 nnoremap <Leader>d :BD<CR>
-
-
-
-" If installed using Homebrew
-set rtp+=/usr/local/opt/fzf
 
 nnoremap <silent> <leader>gg :LazyGit<CR>
 
@@ -270,12 +226,6 @@ endfunction
 function! s:delete_buffers(lines)
   execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
-
-command! BDE call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:delete_buffers(lines) },
-  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-\ }))
  
 " Put these lines at the very end of your vimrc file.
 

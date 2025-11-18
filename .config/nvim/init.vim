@@ -9,6 +9,7 @@ lua <<EOF
   local ts = require('nvim-treesitter.configs')
 
   require('wezterm')
+  require('plugins.fzf')
   require('plugins.smart-splits')
   require('plugins.oil')
   require('wiki')
