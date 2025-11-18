@@ -1,6 +1,5 @@
 set nocompatible
 set pyxversion=3
-syntax on
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -200,8 +199,6 @@ nnoremap <Leader>d :BD<CR>
 
 " If installed using Homebrew
 set rtp+=/usr/local/opt/fzf
-
-syntax enable
 
 nnoremap <silent> <leader>gg :LazyGit<CR>
 
