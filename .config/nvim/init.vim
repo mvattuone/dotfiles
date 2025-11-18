@@ -42,9 +42,6 @@ end
   require('wiki')
 
   require('tsc').setup()
-
-  vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-
   lsp.preset('recommended')
 
   lsp.ensure_installed({
