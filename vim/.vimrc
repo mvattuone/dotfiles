@@ -21,7 +21,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'Avi-D-coder/fzf-wordnet.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'ayu-theme/ayu-vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
