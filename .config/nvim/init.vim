@@ -4,8 +4,6 @@ source ~/.vimrc
 
 lua <<EOF
   local lsp = require('lsp-zero')
-  local guard = require('guard')
-  local ft = require('guard.filetype')
   local ts = require('nvim-treesitter.configs')
 
   require('wezterm')
@@ -46,9 +44,6 @@ lua <<EOF
   lsp.nvim_workspace()
   lsp.setup()
 
-  -- multiple files register
-  ft('typescript,javascript,typescriptreact'):fmt('prettier')
-  ft('python'):fmt('black'):append('isort')
 
   vim.diagnostic.config({
     virtual_text = true,
