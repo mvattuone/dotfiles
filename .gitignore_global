@@ -2,6 +2,11 @@
 .config/git-cola
 .config/gatsby
 .config/oni2
+.config/nvim/tmpstate/
+.config/nvim/shada/
+.config/nvim/backup/
+.config/nvim/swap/
+.config/nvim/undo/
 .config/yarn
 .config/fish/fishd*
 .config/configstore
