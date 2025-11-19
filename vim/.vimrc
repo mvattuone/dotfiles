@@ -208,17 +208,6 @@ nnoremap <leader>m :silent make\|redraw!<cr>
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
 
-function! s:list_buffers()
-  redir => list
-  silent ls
-  redir END
-  return split(list, "\n")
-endfunction
-
-function! s:delete_buffers(lines)
-  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
-endfunction
- 
 " Put these lines at the very end of your vimrc file.
 
 " Load all plugins now.
