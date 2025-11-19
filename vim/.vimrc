@@ -20,7 +20,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'markonm/traces.vim'
-
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'sickill/vim-pasta'
 Plug 'kdheepak/lazygit.nvim'
