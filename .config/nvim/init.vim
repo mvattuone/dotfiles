@@ -3,6 +3,7 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 lua <<EOF
+  require('core')
   require('keymap')
   require('plugins.nvim-treesitter')
   require('lsp')
