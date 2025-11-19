@@ -16,11 +16,6 @@ lua <<EOF
   require('plugins.oil')
   require('wiki')
 
-  vim.diagnostic.config({
-    virtual_text = true,
-    update_in_insert = false,
-    severity_sort = true,
-  })
 
   require('plugins.wiki')
 EOF
