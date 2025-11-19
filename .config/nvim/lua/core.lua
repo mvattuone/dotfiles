@@ -27,6 +27,17 @@ vim.opt.backupcopy = "yes"
 
 
 -----------------------------------------------------------
+-- Cursor & minor visual enhancements
+-----------------------------------------------------------
+vim.opt.guicursor = {
+  "n:ver25",  -- normal mode
+  "v:ver25",  -- visual mode
+  "i:ver25",  -- insert mode
+}
+vim.opt.cursorline = true
+
+
+-----------------------------------------------------------
 -- Diagnostics (LSP)
 -- Controls how Neovim displays LSP errors/warnings/hints.
 -----------------------------------------------------------
