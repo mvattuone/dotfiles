@@ -32,7 +32,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'stefandtw/quickfix-reflector.vim'
 Plug 'qpkorr/vim-bufkill'
-Plug 'junegunn/goyo.vim'
 Plug 'stevearc/vim-arduino'
 
 " LSP Support
