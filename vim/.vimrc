@@ -11,13 +11,11 @@ call plug#begin()
 
 Plug 'vimwiki/vimwiki'
 Plug 'andymass/vim-matchup'
-Plug 'vim-scripts/Zenburn'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'tomasiser/vim-code-dark'
 Plug 'chaoren/vim-wordmotion'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'ibhagwan/fzf-lua'
-Plug 'Avi-D-coder/fzf-wordnet.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'ludovicchabant/vim-gutentags'
