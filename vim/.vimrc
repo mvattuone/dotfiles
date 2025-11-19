@@ -76,9 +76,6 @@ set guicursor=i:ver25,v:ver25,n:ver25
 set cursorline
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
-
-let g:pymode_python = 'python3'
-
 :set number relativenumber
 
 :augroup numbertoggle
