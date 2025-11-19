@@ -138,57 +138,11 @@ else
   colorscheme codedark
 endif
 
-" Easier navigation of buffers
-:nnoremap , :bnext<CR>
-:nnoremap ; :bprevious<CR>
-" Use with a number to go to buffer.
-" Or on it's own to toggle previous buffer
-:nnoremap <Leader>b <C-^>
-:vmap <Leader>c "+y
-:nmap <Leader>p "+p
 
 source ~/code/dotfiles/vim/.vimrc-goyo
 
-" Close buffer (won't close split)
-nnoremap <Leader>d :BD<CR>
-
-nnoremap <silent> <leader>gg :LazyGit<CR>
-
-nnoremap gj :lua vim.diagnostic.goto_next()<cr>
-nnoremap gk :lua vim.diagnostic.goto_prev()<cr>
-nnoremap <silent> gx <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gt <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gn <cmd>lua vim.lsp.buf.rename()<CR>
-
-imap <C-s> <Plug>(fzf-complete-wordnet)
-
-" Copy path of current buffer
-:nmap cp :let @+ = expand("%")<CR>
-
-" Make a timestamp
-nmap <Leader>ts i<C-R>=strftime("%-I:%M %p")<CR><Esc>
-imap <Leader>ts <C-R>=strftime("%-I:%M %p")<CR>
-
-nnoremap <leader>cd :call setreg('+', expand('%:p')) \| echo 'file path copied'<CR>
-
 " FU bell
 set vb t_vb=     
-
-" Set up better zoom
-nmap <C-z> <nop>
-
-" Touchbar silliness
-" Assuming your Caps Lock has been mapped to <Esc> at the OS level
-imap jk <esc>
-vmap jk <esc>
-
-" Open vimrc quickly
-nmap <Leader>e :e ~/.vimrc<CR>
-
-" Open init.vim quickly
-nmap <Leader>i :e ~/.config/nvim/init.vim<CR>
 
 set wildmenu
 set wildmode=longest,list
@@ -200,9 +154,6 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set foldlevel=99
 set foldenable
-
-" Run make silently
-nnoremap <leader>m :silent make\|redraw!<cr>
 
 let &t_ZH="\e[3m"
 let &t_ZR="\e[23m"
