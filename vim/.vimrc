@@ -10,7 +10,6 @@ endif
 call plug#begin()
 
 Plug 'vimwiki/vimwiki'
-Plug 'airblade/vim-gitgutter'
 Plug 'andymass/vim-matchup'
 Plug 'vim-scripts/Zenburn'
 Plug 'NLKNguyen/papercolor-theme'
