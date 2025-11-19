@@ -87,9 +87,6 @@ else
   colorscheme codedark
 endif
 
-
-source ~/code/dotfiles/vim/.vimrc-goyo
-
 " Put these lines at the very end of your vimrc file.
 
 " Load all plugins now.
