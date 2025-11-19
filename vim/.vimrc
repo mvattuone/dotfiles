@@ -174,11 +174,6 @@ imap <C-s> <Plug>(fzf-complete-wordnet)
 nmap <Leader>ts i<C-R>=strftime("%-I:%M %p")<CR><Esc>
 imap <Leader>ts <C-R>=strftime("%-I:%M %p")<CR>
 
-" Simple re-format for minified Javascript
-" Enable experimental transmutation support
-" from vim-match (should rename both tags)
-let g:matchup_transmute_enabled = 1
-
 nnoremap <leader>cd :call setreg('+', expand('%:p')) \| echo 'file path copied'<CR>
 
 " FU bell
