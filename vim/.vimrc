@@ -88,16 +88,6 @@ let g:pymode_python = 'python3'
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
 
-set backup
-set backupdir=~/.vim/backup
-set directory=~/.vim/swap
-set undodir=~/.vim/undo
-set undofile
-" should help with webpack getting triggered on save https://github.com/webpack/webpack/issues/781
-set backupcopy=yes 
-" Spaces whenever tab is pressed
-set expandtab
-
 " 2 spaces
 set tabstop=2
 set softtabstop=2
