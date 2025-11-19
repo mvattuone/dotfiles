@@ -77,7 +77,6 @@ set cursorline
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
 
-let mapleader = "\<Space>"
 let g:pymode_python = 'python3'
 
 :set number relativenumber
