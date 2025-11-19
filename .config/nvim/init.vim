@@ -18,5 +18,6 @@ lua <<EOF
   require('wiki')
 
 
+  require('plugins.tsc')
   require('plugins.wiki')
 EOF
