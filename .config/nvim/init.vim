@@ -11,6 +11,7 @@ lua <<EOF
   require('plugins.fzf')
   require('plugins.smart-splits')
   require('plugins.guard')
+  require('plugins.gitsigns')
   require('plugins.neoscroll')
   require('plugins.oil')
   require('wiki')
