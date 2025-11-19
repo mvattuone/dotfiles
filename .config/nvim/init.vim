@@ -3,9 +3,9 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 lua <<EOF
-  local lsp = require('lsp-zero')
   local ts = require('nvim-treesitter.configs')
 
+  require('lsp')
   require('wezterm')
   require('plugins.fzf')
   require('plugins.smart-splits')
@@ -13,25 +13,6 @@ lua <<EOF
   require('wiki')
 
   require('tsc').setup()
-  lsp.preset('recommended')
-
-  lsp.ensure_installed({
-    'html',
-    'cssls',
-    'ts_ls',
-    'eslint',
-    'pyright',
-    'rust_analyzer',
-  })
-
-  require('lspconfig').ts_ls.setup({
-    on_attach = function(client, bufnr)
-    end,
-    settings = {
-      defaultMaximumTruncationLength = 800
-    },
-  })
-
   vim.keymap.set('n', '<leader>r', function()
     local file = vim.fn.expand('%:p')
     local cmd = string.format('tsrepl.sh "%s"', file)
