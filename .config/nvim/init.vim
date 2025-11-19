@@ -74,4 +74,5 @@ lua <<EOF
     },
   require('neoscroll').setup()
   }
+  require('plugins.wiki')
 EOF
