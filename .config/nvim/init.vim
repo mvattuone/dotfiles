@@ -3,6 +3,7 @@ let &packpath = &runtimepath
 source ~/.vimrc
 
 lua <<EOF
+  require('keymap')
   require('lsp')
   require('repl')
   require('wezterm')
