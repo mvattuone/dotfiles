@@ -16,10 +16,6 @@ lua <<EOF
   require('plugins.oil')
   require('wiki')
 
-  lsp.nvim_workspace()
-  lsp.setup()
-
-
   vim.diagnostic.config({
     virtual_text = true,
     update_in_insert = false,
