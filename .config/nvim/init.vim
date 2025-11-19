@@ -12,7 +12,6 @@ lua <<EOF
   require('plugins.oil')
   require('wiki')
 
-  require('tsc').setup()
   lsp.nvim_workspace()
   lsp.setup()
 
