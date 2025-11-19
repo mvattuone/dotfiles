@@ -15,9 +15,6 @@ lua <<EOF
   require('plugins.gitsigns')
   require('plugins.neoscroll')
   require('plugins.oil')
-  require('wiki')
-
-
   require('plugins.matchup')
   require('plugins.tsc')
   require('plugins.wiki')
