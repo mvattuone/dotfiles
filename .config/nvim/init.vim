@@ -4,6 +4,7 @@ source ~/.vimrc
 
 lua <<EOF
   require('keymap')
+  require('plugins.nvim-treesitter')
   require('lsp')
   require('repl')
   require('wezterm')
