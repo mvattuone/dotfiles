@@ -1,6 +1,3 @@
-set nocompatible
-set pyxversion=3
-
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -77,9 +74,6 @@ call plug#end()
 " QoL improvements to cursor 
 set guicursor=i:ver25,v:ver25,n:ver25
 set cursorline
-
-filetype plugin indent on
-
 " Enable omni complete
 set omnifunc=syntaxcomplete#Complete
 
@@ -95,7 +89,6 @@ let g:pymode_python = 'python3'
 :augroup END
 
 set backup
-set hidden
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
 set undodir=~/.vim/undo
@@ -109,22 +102,12 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-
-" Enable more redraws
-set ttyfast
-
 " Enable mouse support because sometimes you just gotta use it.
 set mouse=a
-if has('mouse_sgr')
-set ttymouse=sgr
-endif
-" Makes the mouse actually usable (more responsive selection)
 " Easier copy paste from clipboard to buffer
 set clipboard=unnamed
 
 if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
 
@@ -141,9 +124,6 @@ endif
 
 source ~/code/dotfiles/vim/.vimrc-goyo
 
-" FU bell
-set vb t_vb=     
-
 set wildmenu
 set wildmode=longest,list
 " Ignore node_modules
@@ -154,10 +134,6 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 set foldlevel=99
 set foldenable
-
-let &t_ZH="\e[3m"
-let &t_ZR="\e[23m"
-
 " Put these lines at the very end of your vimrc file.
 
 " Load all plugins now.
