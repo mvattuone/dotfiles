@@ -4,10 +4,28 @@
 -----------------------------------------------------------
 vim.g.mapleader = " "
 
+-----------------------------------------------------------
 -- Core UI behavior
 -- Basic visuals every user expects immediately
 -----------------------------------------------------------
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.mouse = "a"
 vim.opt.clipboard = "unnamedplus"
+vim.opt.termguicolors = true
+
+
+-----------------------------------------------------------
+-- Editing behavior
+-- Tabs, indentation, typing-related stuff
+-----------------------------------------------------------
+vim.opt.expandtab = true          -- Insert spaces when pressing TAB
+vim.opt.tabstop = 2               -- Display width of a tab
+vim.opt.softtabstop = 2           -- Editing width
+vim.opt.shiftwidth = 2            -- Indent width
+vim.opt.omnifunc = "syntaxcomplete#Complete"  -- Fallback omnifunc
+
+
 -----------------------------------------------------------
 -- File persistence (backup, swap, undo)
 -----------------------------------------------------------
@@ -24,6 +42,23 @@ vim.opt.undofile  = true
 -- Prevent unnecessary rebuilds in tools like webpack
 -- https://github.com/webpack/webpack/issues/781
 vim.opt.backupcopy = "yes"
+
+
+-----------------------------------------------------------
+-- Command-line completion UI
+-----------------------------------------------------------
+vim.opt.wildmenu = true
+vim.opt.wildmode = { "longest", "list" }
+vim.opt.wildignore:append({ "*node_modules/**" })  -- Ignore large directories
+
+
+-----------------------------------------------------------
+-- Folding (Tree-sitter powered folding)
+-----------------------------------------------------------
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 99     -- Keep everything open by default
+vim.opt.foldenable = true
 
 
 -----------------------------------------------------------

@@ -71,25 +71,11 @@ Plug 'VonHeikemen/lsp-zero.nvim'
 
 call plug#end()
 
-" Enable omni complete
-set omnifunc=syntaxcomplete#Complete
-:set number relativenumber
-
 :augroup numbertoggle
 :  autocmd!
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
-
-" 2 spaces
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-" Enable mouse support because sometimes you just gotta use it.
-set mouse=a
-if exists('+termguicolors')
-  set termguicolors
-endif
 
 " Light mode during the day, dark mode otherwise
 " This is not very accurate but is probably sufficient
@@ -104,16 +90,6 @@ endif
 
 source ~/code/dotfiles/vim/.vimrc-goyo
 
-set wildmenu
-set wildmode=longest,list
-" Ignore node_modules
-set wildignore+=*node_modules/**
-
-" cold folding
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-set foldlevel=99
-set foldenable
 " Put these lines at the very end of your vimrc file.
 
 " Load all plugins now.
