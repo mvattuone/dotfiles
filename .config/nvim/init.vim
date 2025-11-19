@@ -9,6 +9,7 @@ lua <<EOF
   require('wezterm')
   require('plugins.fzf')
   require('plugins.smart-splits')
+  require('plugins.neoscroll')
   require('plugins.oil')
   require('wiki')
 
@@ -72,7 +73,6 @@ lua <<EOF
       -- Instead of true it can also be a list of languages
       additional_vim_regex_highlighting = false,
     },
-  require('neoscroll').setup()
   }
   require('plugins.wiki')
 EOF
