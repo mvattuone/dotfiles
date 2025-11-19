@@ -104,9 +104,6 @@ set softtabstop=2
 set shiftwidth=2
 " Enable mouse support because sometimes you just gotta use it.
 set mouse=a
-" Easier copy paste from clipboard to buffer
-set clipboard=unnamed
-
 if exists('+termguicolors')
   set termguicolors
 endif

@@ -1,4 +1,9 @@
 -----------------------------------------------------------
+-- Core UI behavior
+-- Basic visuals every user expects immediately
+-----------------------------------------------------------
+vim.opt.clipboard = "unnamedplus"
+-----------------------------------------------------------
 -- Diagnostics (LSP)
 -- Controls how Neovim displays LSP errors/warnings/hints.
 -----------------------------------------------------------
