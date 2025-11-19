@@ -10,6 +10,7 @@ lua <<EOF
   require('wezterm')
   require('plugins.fzf')
   require('plugins.smart-splits')
+  require('plugins.guard')
   require('plugins.neoscroll')
   require('plugins.oil')
   require('wiki')
