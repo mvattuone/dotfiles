@@ -1,5 +1,6 @@
-local tsc = require('tsc')
-
-tsc.setup()
-
-return tsc
+return {
+  "dmmulroy/tsc.nvim",
+  config = function()
+    require('tsc').setup()
+  end,
+}

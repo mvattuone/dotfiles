@@ -1,5 +1,6 @@
-local neoscroll = require('neoscroll')
-
-neoscroll.setup()
-
-return neoscroll
+return {
+  "karb94/neoscroll.nvim",
+  config = function()
+    require('neoscroll').setup()
+  end,
+}

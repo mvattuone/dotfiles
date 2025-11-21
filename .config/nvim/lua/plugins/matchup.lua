@@ -1,4 +1,7 @@
-" Simple re-format for minified Javascript
-" Enable experimental transmutation support
-" from vim-match (should rename both tags)
-vim.g.matchup_transmute_enabled = 1
+return {
+  "andymass/vim-matchup",
+  init = function()
+    -- enable experimental tag transmutation
+    vim.g.matchup_transmute_enabled = 1
+  end,
+}
