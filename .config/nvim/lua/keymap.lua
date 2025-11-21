@@ -54,11 +54,8 @@ vim.keymap.set("n", "<C-z>", "<nop>", { desc = "Disable Ctrl-Z" })
 vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("v", "jk", "<Esc>")
 
--- Open vimrc quickly
-vim.keymap.set("n", "<Leader>e", ":e ~/.vimrc<CR>", { desc = "Edit .vimrc" })
-
--- Open init.vim quickly
-vim.keymap.set("n", "<Leader>i", ":e ~/.config/nvim/init.vim<CR>", { desc = "Edit init.vim" })
+-- Open init.lua quickly
+vim.keymap.set("n", "<Leader>i", ":e ~/.config/nvim/init.lua<CR>", { desc = "Edit init.vim" })
 
 -- Run make silently
 vim.keymap.set("n", "<leader>m", ":silent make | redraw!<CR>", { desc = "Run make" })

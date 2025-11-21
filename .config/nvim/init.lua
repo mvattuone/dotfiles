@@ -1,0 +1,6 @@
+require('core')
+require('keymap')
+require('lsp')
+require('repl')
+require('wezterm')
+require('number-toggle')
