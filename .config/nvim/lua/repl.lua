@@ -1,5 +1,5 @@
 vim.keymap.set('n', '<leader>r', function()
-  local file = vim.fn.expand('%:p')nction()
+  local file = vim.fn.expand('%:p')
   local cmd = string.format('tsrepl.sh "%s"', file)
 
   print('⏳ Launching TypeScript REPL for ' .. vim.fn.fnamemodify(file, ':t') .. '...')
