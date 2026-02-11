@@ -1,7 +1,6 @@
 local lspkind = require('lspkind')
 local cmp = require('cmp')
 
-lsp.preset('recommended')
 cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
