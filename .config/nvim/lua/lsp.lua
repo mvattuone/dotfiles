@@ -105,3 +105,7 @@ vim.lsp.config("lua_ls", with_capabilities({
   },
 }))
 
+require('mason').setup()
+require('mason-lspconfig').setup({
+  ensure_installed = servers,
+})
